@@ -1,0 +1,157 @@
+---
+title: "Using scCDC for contamination detection and correction on single-cell (-nucleus) RNA-Seq data"
+author:
+  - name: Yihui Cen
+    affiliation: ZJE, Zhejiang University, Haining
+  - name: Weijian Wang
+    affiliation: ZJE, Zhejiang University, Haining
+  - name: Zezhen Lu
+    affiliation: ZJE, Zhejiang University, Haining
+
+date: "`r BiocStyle::doc_date()`"
+output:
+  BiocStyle::html_document:
+    highlight: pygments
+    toc: true
+    fig_width: 10
+    fig_height: 5
+vignette: >
+  %\VignetteIndexEntry{scCDC}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r echo=FALSE, include=FALSE}
+knitr::opts_chunk$set(tidy = FALSE, cache = TRUE, dev = "png",
+                      message = FALSE, error = FALSE, warning = FALSE)
+```
+
+# Introduction
+
+```{r setup}
+suppressPackageStartupMessages(library(scCDC))
+suppressPackageStartupMessages(library(Seurat))
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(tidyr))
+suppressPackageStartupMessages(library(pdftools))
+suppressPackageStartupMessages(library(ddpcr))
+```
+
+*scCDC* is a tool to detect contaminated genes and correct the contamination using entropy theory on the distribution of the targeted gene expression
+
+This tutorial will demonstrate how to use scCDC to deal with single-cell (-nucleus) matrices and detect & correct the contamination
+
+# Pre-processing the Data
+
+Here we use `mislet` dataset as an example. Seurat will offer help to create data with clustering information.
+```{r load-data}
+data(mislet_before, package = "scCDC")
+mislet_seuratobj<-CreateSeuratObject(mislet_before)
+mislet_seuratobj@active.ident<-mislet_annotation
+```
+
+This `mislet` dataset is a matrix with `r dim(mislet_before)[1]` genes and `r dim(mislet_before)[2]` cells.
+
+# Contamination Detection
+
+## Detect contaminated genes
+
+```{r ContaminationDetection.1}
+contamination <- ContaminationDetection(mislet_seuratobj,sample_name = "mislet",
+                                      out_path.plot = "./", out_path.table = "./")
+rownames(contamination)
+```
+
+Using default settings, entropy deviations (contamination degree) of qualified clusters for only contaminated genes will be returned with gene names. By determining the directories of plots and the table, the Expression-Entropy plots and the full contamination degree table (including uncontaminated genes) will be output into the directories.
+
+Here, in this tutorial, the generated example plots and table will be output into your current working directory.
+
+## Checking the Expression-Entropy plots
+
+```{r ContaminationDetection.2,fig.width=1,fig.height=1}
+quiet(pdf_convert("./mislet_SE-plot.pdf",format='jpg'))
+knitr::include_graphics("mislet_SE-plot_1.jpg")
+knitr::include_graphics("mislet_SE-plot_2.jpg")
+knitr::include_graphics("mislet_SE-plot_3.jpg")
+knitr::include_graphics("mislet_SE-plot_4.jpg")
+```
+Here, red dots represent potentially contaminated genes in each cluster while blue represents uncontaminated genes.
+
+## Comparing the entropy deviation
+
+Using the full table of entropy deviations, we can compare the difference between contaminated genes and uncontaminated genes. 
+```{r ContaminationDetection.3}
+cont_table <- read.csv("mislet_degree_of_contamination.csv")
+cont_table_long <- tidyr::gather(cont_table, group, entropy_deviation, 
+                                 Alpha, Beta, Delta, Endothelial, mean_distance)
+cont_table_long_selected <- cbind(cont_table_long, 
+                                  type = rep("uncontaminated", length(cont_table_long[,1])))
+cont_table_long_selected[which(cont_table_long_selected$X %in% 
+                                 rownames(contamination)),4] <- "contaminated"
+ggplot(cont_table_long_selected) + geom_boxplot(aes(type,entropy_deviation),outlier.shape = NA) +
+  facet_wrap(~group)
+
+```
+
+# Contamination Correction
+
+## Decontaminating the matrix
+
+```{r ContaminationCorrection.1}
+mislet_corrected <- ContaminationCorrection(mislet_seuratobj, 
+                                                      cont_genes = rownames(contamination))
+```
+The corrected matrix will be returned. 
+
+## Comparing before and after decontamination
+
+### Applying the Seurat pipeline
+
+```{r ContaminationCorrection.2,message=FALSE,warning=FALSE}
+# before the decontamination
+mislet_seuratobj <- NormalizeData(mislet_seuratobj,
+                                  normalization.method = "LogNormalize",scale.factor = 10000)
+mislet_seuratobj <- FindVariableFeatures(mislet_seuratobj, 
+                                              selection.method = "vst", nfeatures = 2000)
+all.genes <- rownames(mislet_seuratobj)
+mislet_seuratobj <- ScaleData(mislet_seuratobj, features = all.genes)
+mislet_seuratobj <- RunPCA(mislet_seuratobj, 
+                                features = VariableFeatures(object = mislet_seuratobj))
+
+mislet_seuratobj <- RunUMAP(mislet_seuratobj,dims=1:20)
+# after the decontamination
+mislet_seuratobj_corrected <- CreateSeuratObject(mislet_corrected)
+mislet_seuratobj_corrected <- NormalizeData(mislet_seuratobj_corrected,
+                                  normalization.method = "LogNormalize",scale.factor = 10000)
+mislet_seuratobj_corrected <- FindVariableFeatures(mislet_seuratobj_corrected, 
+                                              selection.method = "vst", nfeatures = 2000)
+all.genes <- rownames(mislet_seuratobj_corrected)
+mislet_seuratobj_corrected <- ScaleData(mislet_seuratobj_corrected, features = all.genes)
+mislet_seuratobj_corrected <- RunPCA(mislet_seuratobj_corrected, 
+                                features = VariableFeatures(object = mislet_seuratobj_corrected))
+
+mislet_seuratobj_corrected <- RunUMAP(mislet_seuratobj_corrected,dims=1:20)
+```
+
+### Visualizing the comparison
+
+```{r ContaminationCorrection.3}
+FeaturePlot(mislet_seuratobj, features = c("Ins1", "Gcg"))
+FeaturePlot(mislet_seuratobj_corrected, features = c("Ins1", "Gcg"))
+```
+
+# Getting help
+
+If any problems occur when using *scCDC*, please report it on [issues](https://github.com/TellerLu/issues). For more specific issues, [email us](yihui.19@intl.zju.edu.cn)!
+
+# Session information
+
+```{r}
+sessionInfo()
+```
+
+# References
+
+
+
+
