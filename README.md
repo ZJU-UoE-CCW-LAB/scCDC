@@ -9,9 +9,11 @@ scCDC is a computational algorithm developed to detect contamination causing gen
 `scCDC` can be installed from Github with the following code in `R`:
 
 ``` r
-install.packages("devtools")
-library(devtools)
+if(!require("devtools")){
+  install.packages("devtools")
+}
 
+library(devtools)
 install_github("ChaochenWang/scCDC")
 ```
 
