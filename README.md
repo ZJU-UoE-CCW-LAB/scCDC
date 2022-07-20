@@ -20,8 +20,7 @@ install_github("ChaochenWang/scCDC")
 For detailed info on `scPNMF` method and applications, please check out the package [vignettes](https://htmlpreview.github.io/?https://github.com/ChaochenWang/scCDC/blob/main/inst/doc/scCDC.html), or with the following code in `R`: 
 
 ``` r
-install_git
-Wang/scCDC", build_vignettes = TRUE)
+install_github("ChaochenWang/scCDC", build_vignettes = TRUE)
 browseVignettes("scCDC")
 ```
 
