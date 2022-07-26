@@ -1,4 +1,4 @@
-# scCDC
+# scCDC (single-cell Contamination Detection and Correction)
 ### Developed by Zezhen Lu, Weijian Wang, Yihui Cen
 
 ## Description
