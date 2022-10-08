@@ -19,7 +19,7 @@ install_github("ChaochenWang/scCDC")
 
 ## Usage
 
-For detailed info on `scPNMF` method and applications, please check out the package [vignettes](https://htmlpreview.github.io/?https://github.com/ChaochenWang/scCDC/blob/main/inst/doc/scCDC.html), or with the following code in `R`: 
+For detailed info on `scCDC` method and applications, please check out the package [vignettes](https://htmlpreview.github.io/?https://github.com/ChaochenWang/scCDC/blob/main/inst/doc/scCDC.html), or with the following code in `R`: 
 
 ``` r
 install_github("ChaochenWang/scCDC", build_vignettes = TRUE)
