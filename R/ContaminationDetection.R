@@ -264,7 +264,8 @@ generate_plot <- function(.x, name, genes = NULL, point_size = 1.8, cutoff = 0.0
 #' You can learn more about this function at:
 #'
 #' @param seuratobject a Seurat object that has been clustered.
-#' @param restrict_factor The parameter controls the degree of conservation when justifying the contamination causing genes.
+#' @param restrict_factor The restriction factor, the parameter controls the degree of conservation when justifying the contamination causing genes. 
+#' Default setting 0.8, representing that each potential contamination causing gene should be recognized in 80% of the clusters with the algorithm to be identified in the output result.
 #' @param min.cell The parameter used to filter the cell populations without sufficient number of cells. Cell populations that reaches the threshold could be used in downstream analysis.
 #' @param out_path.table If specified a path, a contamination degree dataframe would be output into the path.
 #' @param sample_name the name of the output contamination degree dataframe.
