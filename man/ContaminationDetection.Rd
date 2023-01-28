@@ -6,7 +6,7 @@
 \usage{
 ContaminationDetection(
   seuratobject,
-  restrict_factor = 0.8,
+  restriction_factor = 0.8,
   sample_name = "default",
   min.cell = 100,
   out_path.plot = NULL,
@@ -17,8 +17,8 @@ ContaminationDetection(
 \arguments{
 \item{seuratobject}{a Seurat object that has been clustered.}
 
-\item{restrict_factor}{The restriction factor, the parameter controls the degree of conservation when justifying the contamination causing genes. 
-Default setting 0.8, representing that each potential contamination causing gene should be recognized in 80% of the clusters with the algorithm to be identified in the output result.}
+\item{restriction_factor}{The parameter controls the degree of conservation when justifying the contamination causing genes. Default setting is 0.8, 
+representing that each potential contamination-causing gene should be recognized in 80% of the clusters with the algorithm to be identified in the output result.}
 
 \item{sample_name}{the name of the output contamination degree dataframe.}
 
@@ -38,7 +38,6 @@ cluster names as column names, the last column is the mean entropy deviation of 
 \description{
 ContaminationDetection detects the contamination causing genes in the Seurat object based on the 
 relationship between the entropy and mean expression level of genes in a cell cluster.
-You can learn more about this function at:
 }
 \examples{
 contamination <- ContaminationDetection(seuratobject = seuratobj)

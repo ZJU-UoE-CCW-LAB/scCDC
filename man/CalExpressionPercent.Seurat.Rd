@@ -18,7 +18,6 @@ cluster names as column names.
 \description{
 CalExpressionPercent.Seurat calculates the expression percent of genes within each cluster 
 based on the 'counts' slot of the given seurat object.
-You can learn more about this function at:
 }
 \examples{
 exp.data <- CalExpressionPercent.Seurat(object = seuratobj, gene_set = rownames(seuratobj))
