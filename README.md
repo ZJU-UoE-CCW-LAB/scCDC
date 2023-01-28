@@ -1,5 +1,5 @@
 # scCDC (single-cell Contamination Detection and Correction)
-### Developed by Zezhen Lu, Weijian Wang, Yihui Cen
+### Developed by Weijian Wang, Yihui Cen, Zezhen Lu
 
 ## Description
 scCDC is a computational algorithm developed to detect contamination causing genes (GCGs) in single cell and single nuclei RNA-Seq datasets and perform further decontamination on the GCGs.
