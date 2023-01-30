@@ -37,12 +37,9 @@ simple_roc <- function(exp,class){
 #'
 #' @examples AUCs <- Cal_AUCs(seuratobj, gene)
 Cal_AUCs <- function(object,gene){
-  # obtain the average expression level of each cluster after normalization
-  object <- NormalizeData(object, normalization.method = "LogNormalize", 
-                                    scale.factor = 10000, verbose = F)
+  # obtain the average expression level of each cluster
   ave_exp <- AverageExpression(object, features = gene)
   exps <- ave_exp[[1]]
-  object@assays$RNA@data <- object@assays$RNA@counts # recover the status
   # sort the cluster with the average expression level
   exp_sort <- as.vector(exps)
   names(exp_sort) <- colnames(exps)
@@ -156,11 +153,14 @@ ContaminationCorrection<-function(
 ){
   # calculate the threshold for every cont_gene (GCG)
   message('Calculating correction threshold...')
+  object <- NormalizeData(object, normalization.method = "LogNormalize", 
+                          scale.factor = 10000, verbose = F) # normalization
   thres_vals<-unlist(pblapply(cont_genes, function(x){
     quiet(eGCG_aucs<-Cal_AUCs(object,x))
     thres<-Cal_thres(object,x,eGCG_aucs,auc_thres = auc_thres)
     return(thres)
   }))
+  object@assays$RNA@data <- object@assays$RNA@counts # recover the status
   
   # fetch the matrix with cont_genes
   exp_matrix<-GetAssayData(object,slot='counts')
