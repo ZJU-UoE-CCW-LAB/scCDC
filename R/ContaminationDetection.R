@@ -2,7 +2,6 @@
 #'
 #' CalExpressionPercent.Seurat calculates the expression percent of genes within each cluster 
 #' based on the 'counts' slot of the given seurat object.
-#' You can learn more about this function at:
 #'
 #' @param object a Seurat object that has been clustered.
 #' @param gene_set a vector containing genes which you want to calculate the expression percent.
@@ -10,14 +9,15 @@
 #' cluster names as column names.
 #'
 #' @import Seurat
-#' @export
 #'
 #' @examples exp.data <- CalExpressionPercent.Seurat(object = seuratobj, gene_set = rownames(seuratobj))
 CalExpressionPercent.Seurat <- function(
   object,
   gene_set
 ){
+  # fetch the cluster information
   levels <- levels(object@active.ident)
+  # calculate the expression percentage of each cluster for each gene
   output.list <- lapply(levels, function(x){
     tmp <- subset(object, idents = x)
     gene.data.dat <- as.data.frame(GetAssayData(tmp, slot = 'counts'))[gene_set, ]
@@ -27,6 +27,7 @@ CalExpressionPercent.Seurat <- function(
     })
     return(gene.exp.percent)
   })
+  # reformat the result
   output <- do.call(cbind, output.list)
   colnames(output) <- levels
   return(output)
@@ -36,7 +37,6 @@ CalExpressionPercent.Seurat <- function(
 #'
 #' CalAverageExpression.Seurat calculates average expression of genes within each cluster 
 #' based on the data/counts slot of the given seurat object.
-#' You can learn more about this function at:
 #'
 #' @param object a Seurat object that has been clustered.
 #' @param gene_set a vector containing genes which you want to calculate average expression.
@@ -48,7 +48,6 @@ CalExpressionPercent.Seurat <- function(
 #'
 #' @import Seurat
 #' @import pbapply
-#' @export
 #'
 #' @examples ave.data <- CalAverageExpression.Seurat(object = seuratobj, gene_set = rownames(seuratobj))
 CalAverageExpression.Seurat <- function(
@@ -56,13 +55,16 @@ CalAverageExpression.Seurat <- function(
   gene_set,
   type = 'counts'
 ){
+  # fetch the cluster information
   levels <- levels(object@active.ident)
+  # calculate the mean expression level of each cluster for each gene
   output.list <- pblapply(levels, function(x) {
     tmp <- subset(object, idents = x)
     gene.data.dat <- as.data.frame(GetAssayData(tmp, slot = type))[gene_set, ]
     gene.set.data <- apply(gene.data.dat, 1, mean)
     return(gene.set.data)
   })
+  # reformat the result
   output <- do.call(cbind, output.list)
   colnames(output) <- levels
   return(output)
@@ -72,23 +74,24 @@ CalAverageExpression.Seurat <- function(
 #'
 #' This method calculates the Shannon's entropy of the observed counts of genes within each cluster in the Seurat object.
 #' CalEnt.Seurat calculates entropy of genes based on the 'counts' slot in the Seurat object.
-#' You can learn more about this function at:
 #' 
 #' @param object a Seurat object that has been clustered.
 #' @param gene_set a vector containing genes which you want to calculate entropy for.
 #' @return a matrix containing entropy results with gene names as row names,
 #' cluster names as column names.
+#' 
 #' @import Rcpp
 #' @import Seurat
 #' @import pbapply
-#' @export
 #'
 #' @examples entropy.data <- CalEnt.Seurat(object = seuratobj, gene_set = rownames(seuratobj))
 CalEnt.Seurat <- function(
   object,
   gene_set
 ){
+  # fetch the cluster information
   levels <- levels(object@active.ident)
+  # calculate the entropy of each cluster for each gene
   output.list <- pblapply(levels, function(x) {
     tmp <- subset(object, idents = x)
     gene.data.dat <- as.matrix(GetAssayData(tmp, slot = 'counts'))[gene_set, ]
@@ -102,6 +105,7 @@ CalEnt.Seurat <- function(
     }
     return(gene.set.ent)
   })
+  # reformat the result
   output <- do.call(cbind, output.list)
   colnames(output) <- levels
   rownames(output) <- gene_set
@@ -112,7 +116,6 @@ CalEnt.Seurat <- function(
 #' 
 #' generate_curve fits the relationship between entropy and mean expression level through bootstrapping
 #' generate_curve estimates the expected entropy based on the mean expression level within each cluster in the Seurat object
-#' You can learn more about this function at:
 #' 
 #' @param .x A tibble object containing 3 columns: gene name, mean expression and entropy.
 #' @param filter The parameter used to filter the points that are deviated from the curve.
@@ -120,7 +123,6 @@ CalEnt.Seurat <- function(
 #' @return A dataframe containing 7 columns: mean expression, the actual entropy, entropy deviation, the fitted entropy,
 #' p value, the adjusted p value, gene name.
 #' @import dplyr
-#' @export
 #'
 #' @examples result <- generate_curve(gene_ent_ave)
 generate_curve <- function(.x, filter = 0.01, select_factor = 0.8){
@@ -174,7 +176,6 @@ generate_curve <- function(.x, filter = 0.01, select_factor = 0.8){
 #' 
 #' generate_plot plots the fitted curve with points. Each point represents a gene in a cluster, the x axis represents the mean expression level
 #' and the y axis represents the entropy.
-#' You can learn more about this function at:
 #' 
 #' @param .x A dataframe which is the output of the generate_curve function.
 #' @param name The name printed on the figure.
@@ -187,7 +188,6 @@ generate_curve <- function(.x, filter = 0.01, select_factor = 0.8){
 #' @import dplyr
 #' @import ggplot2
 #' @import ggrepel
-#' @export
 #'
 #' @examples plot <- generate_plot(result, 'cluster A')
 generate_plot <- function(.x, name, genes = NULL, point_size = 1.8, cutoff = 0.05){
@@ -261,11 +261,10 @@ generate_plot <- function(.x, name, genes = NULL, point_size = 1.8, cutoff = 0.0
 #'
 #' ContaminationDetection detects the contamination causing genes in the Seurat object based on the 
 #' relationship between the entropy and mean expression level of genes in a cell cluster.
-#' You can learn more about this function at:
 #'
 #' @param seuratobject a Seurat object that has been clustered.
-#' @param restrict_factor The restriction factor, the parameter controls the degree of conservation when justifying the contamination causing genes. 
-#' Default setting 0.8, representing that each potential contamination causing gene should be recognized in 80% of the clusters with the algorithm to be identified in the output result.
+#' @param restriction_factor The parameter controls the degree of conservation when justifying the contamination causing genes. Default setting is 0.8, 
+#' representing that each potential contamination-causing gene should be recognized in 80% of the clusters with the algorithm to be identified in the output result.
 #' @param min.cell The parameter used to filter the cell populations without sufficient number of cells. Cell populations that reaches the threshold could be used in downstream analysis.
 #' @param out_path.table If specified a path, a contamination degree dataframe would be output into the path.
 #' @param sample_name the name of the output contamination degree dataframe.
@@ -282,19 +281,24 @@ generate_plot <- function(.x, name, genes = NULL, point_size = 1.8, cutoff = 0.0
 #' @export
 #'
 #' @examples contamination <- ContaminationDetection(seuratobject = seuratobj)
-ContaminationDetection <- function(seuratobject, restrict_factor = 0.8, sample_name = "default",
+ContaminationDetection <- function(seuratobject, restriction_factor = 0.8, sample_name = "default",
                                          min.cell = 100, out_path.plot = NULL, out_path.table = NULL, only.cont_genes = F){
+  # fetch the the cell number of each cluster
   cluster <- table(seuratobject@active.ident)
   nums <- as.numeric(cluster)
   ##the number of cells in a cluster should reach a threshold
   total_cluster <- names(cluster)[nums >= min.cell]
   seuratobject <- subset(seuratobject, idents = total_cluster)
+  
+  # calculate entropy
   message("Caculating entropy...")
   entropy_result <- CalEnt.Seurat(seuratobject, rownames(seuratobject))
+  # calculate average expression level
   message("Caculating expression level...")
   ave_result <- CalAverageExpression.Seurat(seuratobject, rownames(seuratobject))
   ave_result <- log(ave_result+1)
   total_cluster <- colnames(ave_result)
+  # calculate the relation betwee entropy and expression level
   message("Calculating entropy-expression relation...")
   all <- pblapply(1:length(total_cluster), function(i){
     cluster <- total_cluster[i]
@@ -302,6 +306,8 @@ ContaminationDetection <- function(seuratobject, restrict_factor = 0.8, sample_n
     gene_ent_ave <- generate_curve(gene_ent_ave)
     return(gene_ent_ave)
   })
+  
+  # select contaminated genes (GCG)
   genes <- c()
   for (i in 1:length(all)){
     tmp = all[[i]]
@@ -310,8 +316,10 @@ ContaminationDetection <- function(seuratobject, restrict_factor = 0.8, sample_n
   }
   count <- table(genes)
   gene_num <- as.numeric(count)
-  contaminated_genes <- names(count)[gene_num >= round(ncol(ave_result) * restrict_factor)]
+  contaminated_genes <- names(count)[gene_num >= round(ncol(ave_result) * restriction_factor)]
   exp_percent <- CalExpressionPercent.Seurat(seuratobject, contaminated_genes)
+  
+  # filter contaminated genes (GCG)
   filtered_contaminated_genes <- c()
   for(i in 1:length(contaminated_genes)){
     choose <- T
@@ -324,6 +332,7 @@ ContaminationDetection <- function(seuratobject, restrict_factor = 0.8, sample_n
       filtered_contaminated_genes <- c(filtered_contaminated_genes, contaminated_genes[i])
     }
   }
+  
   # extract cont_degree
   message("Extracting contamination degree...")
   genes <- rownames(seuratobject)
@@ -373,4 +382,3 @@ ContaminationDetection <- function(seuratobject, restrict_factor = 0.8, sample_n
   
   return(contamination_result[which(rownames(contamination_result) %in% filtered_contaminated_genes), ])
 }
-

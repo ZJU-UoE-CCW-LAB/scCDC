@@ -21,7 +21,6 @@ cluster names as column names.
 \description{
 CalAverageExpression.Seurat calculates average expression of genes within each cluster 
 based on the data/counts slot of the given seurat object.
-You can learn more about this function at:
 }
 \examples{
 ave.data <- CalAverageExpression.Seurat(object = seuratobj, gene_set = rownames(seuratobj))

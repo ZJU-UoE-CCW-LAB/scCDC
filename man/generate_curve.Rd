@@ -20,7 +20,6 @@ p value, the adjusted p value, gene name.
 \description{
 generate_curve fits the relationship between entropy and mean expression level through bootstrapping
 generate_curve estimates the expected entropy based on the mean expression level within each cluster in the Seurat object
-You can learn more about this function at:
 }
 \examples{
 result <- generate_curve(gene_ent_ave)

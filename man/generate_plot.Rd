@@ -24,7 +24,6 @@ A ggplot object
 \description{
 generate_plot plots the fitted curve with points. Each point represents a gene in a cluster, the x axis represents the mean expression level
 and the y axis represents the entropy.
-You can learn more about this function at:
 }
 \examples{
 plot <- generate_plot(result, 'cluster A')
