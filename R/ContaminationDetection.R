@@ -120,7 +120,7 @@ CalEnt.Seurat <- function(
 #' @param .x A tibble object containing 3 columns: gene name, mean expression and entropy.
 #' @param filter The parameter used to filter the points that are deviated from the curve.
 #' @param select_factor The parameter controls the selected number of genes used to do bootstrap.
-#' @return A dataframe containing 7 columns: mean expression, the actual entropy, entropy deviation, the fitted entropy,
+#' @return A dataframe containing 7 columns: mean expression, the actual entropy, entropy divergence, the fitted entropy,
 #' p value, the adjusted p value, gene name.
 #' @import dplyr
 #'
@@ -271,8 +271,8 @@ generate_plot <- function(.x, name, genes = NULL, point_size = 1.8, cutoff = 0.0
 #' @param out_path.plot If specified a path, the plot of the relationship between the entropy and expression would be 
 #' output into the path.
 #' @param only.cont_genes A logical parameter controls whether only to label the contamination causing genes on the entropy-expression curve
-#' @return a dataframe containing entropy deviation results with gene names as row names,
-#' cluster names as column names, the last column is the mean entropy deviation of one gene across the clusters.
+#' @return a dataframe containing entropy divergence results with gene names as row names,
+#' cluster names as column names, the last column is the mean entropy divergence of one gene across the clusters.
 #'
 #' @import ddpcr
 #' @import pbapply

@@ -32,8 +32,8 @@ output into the path.}
 \item{only.cont_genes}{A logical parameter controls whether only to label the contamination causing genes on the entropy-expression curve}
 }
 \value{
-a dataframe containing entropy deviation results with gene names as row names,
-cluster names as column names, the last column is the mean entropy deviation of one gene across the clusters.
+a dataframe containing entropy divergence results with gene names as row names,
+cluster names as column names, the last column is the mean entropy divergence of one gene across the clusters.
 }
 \description{
 ContaminationDetection detects the contamination causing genes in the Seurat object based on the 

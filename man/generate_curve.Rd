@@ -14,7 +14,7 @@ generate_curve(.x, filter = 0.01, select_factor = 0.8)
 \item{select_factor}{The parameter controls the selected number of genes used to do bootstrap.}
 }
 \value{
-A dataframe containing 7 columns: mean expression, the actual entropy, entropy deviation, the fitted entropy,
+A dataframe containing 7 columns: mean expression, the actual entropy, entropy divergence, the fitted entropy,
 p value, the adjusted p value, gene name.
 }
 \description{

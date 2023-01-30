@@ -44,14 +44,13 @@ knitr::include_graphics("mislet_SE-plot_4.jpg")
 
 ## ----ContaminationDetection.3-------------------------------------------------
 cont_table <- read.csv("mislet_degree_of_contamination.csv")
-cont_table_long <- tidyr::gather(cont_table, group, entropy_deviation, 
+cont_table_long <- tidyr::gather(cont_table, group, entropy_divergence, 
                                  Alpha, Beta, Delta, Endothelial, mean_distance)
 cont_table_long_selected <- cbind(cont_table_long, 
                                   type = rep("uncontaminated", length(cont_table_long[,1])))
 cont_table_long_selected[which(cont_table_long_selected$X %in% 
                                  rownames(contamination)),4] <- "contaminated"
-ggplot(cont_table_long_selected) + geom_boxplot(aes(type,entropy_deviation),outlier.shape = NA) +
-  facet_wrap(~group)
+ggplot(cont_table_long_selected) + geom_boxplot(aes(type,entropy_divergence),outlier.shape = NA) + facet_wrap(~group)
 
 
 ## ----ContaminationCorrection.1------------------------------------------------
