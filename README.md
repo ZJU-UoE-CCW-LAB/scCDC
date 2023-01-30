@@ -22,7 +22,6 @@ install_github("ZJU-UoE-CCW-LAB/scCDC")
 For detailed info on `scCDC` method and applications, please check out the package [vignettes](https://htmlpreview.github.io/?https://github.com/ZJU-UoE-CCW-LAB/scCDC/blob/main/inst/doc/scCDC.html), or with the following code in `R`: 
 
 ``` r
-install_github("ZJU-UoE-CCW-LAB/scCDC", build_vignettes = TRUE)
 browseVignettes("scCDC")
 ```
 
