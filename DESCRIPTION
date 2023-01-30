@@ -20,4 +20,4 @@ LinkingTo: Rcpp
 RoxygenNote: 7.2.1
 VignetteBuilder: knitr
 NeedsCompilation: yes
-Packaged: 2023-01-30 10:17:03 UTC; jacka
+Packaged: 2023-01-30 11:39:10 UTC; jacka

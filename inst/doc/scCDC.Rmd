@@ -41,9 +41,9 @@ suppressPackageStartupMessages(library(ddpcr))
 
 This tutorial will demonstrate how to use scCDC to deal with single-cell (-nucleus) matrices and detect & correct the contamination
 
-# Pre-processing the Data
+# Pre-processing data
 
-## Load the data
+## Loading data
 
 Here we use `mislet` dataset as an example. Seurat will offer help to create data with clustering information.
 ```{r load-data}
@@ -71,9 +71,9 @@ mislet_seuratobj <- RunPCA(mislet_seuratobj,
 mislet_seuratobj <- RunUMAP(mislet_seuratobj,dims=1:20)
 ```
 
-# Contamination Detection
+# Contamination detection
 
-## Detect global contamination-causing genes (GCGs)
+## Detecting global contamination-causing genes (GCGs)
 
 ```{r ContaminationDetection.1}
 contamination <- ContaminationDetection(mislet_seuratobj,restriction_factor = 0.8, 
@@ -108,13 +108,14 @@ cont_table_long_selected <- cbind(cont_table_long,
                                   type = rep("uncontaminated", length(cont_table_long[,1])))
 cont_table_long_selected[which(cont_table_long_selected$X %in% 
                                  rownames(contamination)),4] <- "contaminated"
-ggplot(cont_table_long_selected) + geom_boxplot(aes(type,entropy_divergence),outlier.shape = NA) + facet_wrap(~group)
+ggplot(cont_table_long_selected) + geom_boxplot(aes(type,entropy_divergence),outlier.shape = NA) + 
+  facet_wrap(~group)
 
 ```
 
-# Contamination Correction
+# Contamination correction
 
-## Decontaminate the matrix
+## Decontaminating the matrix
 
 ```{r ContaminationCorrection.1}
 mislet_seuratobj_corrected <- ContaminationCorrection(mislet_seuratobj, 
@@ -125,15 +126,17 @@ The corrected matrix will be returned.
 
 ## Comparing before and after decontamination
 
-### Reset the default assay and perform normalization
+### Resetting the default assay and performing the normalization
 
 ```{r ContaminationCorrection.2}
 DefaultAssay(mislet_seuratobj_corrected) <- "Corrected"
 mislet_seuratobj_corrected <- NormalizeData(mislet_seuratobj_corrected,assay = "Corrected",
                                   normalization.method = "LogNormalize",scale.factor = 10000)
-mislet_seuratobj_corrected <- FindVariableFeatures(mislet_seuratobj_corrected,assay = "Corrected",selection.method = "vst", nfeatures = 2000)
+mislet_seuratobj_corrected <- FindVariableFeatures(mislet_seuratobj_corrected,assay = "Corrected",
+                                                   selection.method = "vst", nfeatures = 2000)
 all.genes <- rownames(mislet_seuratobj_corrected)
-mislet_seuratobj_corrected <- ScaleData(mislet_seuratobj_corrected,assay = "Corrected",features = all.genes)
+mislet_seuratobj_corrected <- ScaleData(mislet_seuratobj_corrected,assay = "Corrected",
+                                        features = all.genes)
 ```
 
 ### Visualizing the comparison

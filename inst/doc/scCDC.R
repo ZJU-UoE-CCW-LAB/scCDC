@@ -50,7 +50,8 @@ cont_table_long_selected <- cbind(cont_table_long,
                                   type = rep("uncontaminated", length(cont_table_long[,1])))
 cont_table_long_selected[which(cont_table_long_selected$X %in% 
                                  rownames(contamination)),4] <- "contaminated"
-ggplot(cont_table_long_selected) + geom_boxplot(aes(type,entropy_divergence),outlier.shape = NA) + facet_wrap(~group)
+ggplot(cont_table_long_selected) + geom_boxplot(aes(type,entropy_divergence),outlier.shape = NA) + 
+  facet_wrap(~group)
 
 
 ## ----ContaminationCorrection.1------------------------------------------------
@@ -62,9 +63,11 @@ mislet_seuratobj_corrected <- ContaminationCorrection(mislet_seuratobj,
 DefaultAssay(mislet_seuratobj_corrected) <- "Corrected"
 mislet_seuratobj_corrected <- NormalizeData(mislet_seuratobj_corrected,assay = "Corrected",
                                   normalization.method = "LogNormalize",scale.factor = 10000)
-mislet_seuratobj_corrected <- FindVariableFeatures(mislet_seuratobj_corrected,assay = "Corrected",selection.method = "vst", nfeatures = 2000)
+mislet_seuratobj_corrected <- FindVariableFeatures(mislet_seuratobj_corrected,assay = "Corrected",
+                                                   selection.method = "vst", nfeatures = 2000)
 all.genes <- rownames(mislet_seuratobj_corrected)
-mislet_seuratobj_corrected <- ScaleData(mislet_seuratobj_corrected,assay = "Corrected",features = all.genes)
+mislet_seuratobj_corrected <- ScaleData(mislet_seuratobj_corrected,assay = "Corrected",
+                                        features = all.genes)
 
 ## ----ContaminationCorrection.3------------------------------------------------
 FeaturePlot(mislet_seuratobj, features = c("Ins1", "Gcg"))
