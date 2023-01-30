@@ -14,20 +14,20 @@ if(!require("devtools")){
 }
 
 library(devtools)
-install_github("ChaochenWang/scCDC")
+install_github("ZJU-UoE-CCW-LAB/scCDC")
 ```
 
 ## Usage
 
-For detailed info on `scCDC` method and applications, please check out the package [vignettes](https://htmlpreview.github.io/?https://github.com/ChaochenWang/scCDC/blob/main/inst/doc/scCDC.html), or with the following code in `R`: 
+For detailed info on `scCDC` method and applications, please check out the package [vignettes](https://htmlpreview.github.io/?https://github.com/ZJU-UoE-CCW-LAB/scCDC/blob/main/inst/doc/scCDC.html), or with the following code in `R`: 
 
 ``` r
-install_github("ChaochenWang/scCDC", build_vignettes = TRUE)
+install_github("ZJU-UoE-CCW-LAB/scCDC", build_vignettes = TRUE)
 browseVignettes("scCDC")
 ```
 
 ## Contact
 
-Any questions or suggestions on `scCDC` are welcomed! Please report it on [issues](https://github.com/ChaochenWang/scCDC/issues), or contact Weijian Wang (<weijian.19@intl.zju.edu.cn>), Yihui Cen (<yihui.19@intl.zju.edu.cn>) or Zezhen Lu (<zezhen.19@intl.zju.edu.cn>).
+Any questions or suggestions on `scCDC` are welcomed! Please report it on [issues](https://github.com/ZJU-UoE-CCW-LAB/scCDC/issues), or contact Weijian Wang (<weijian.19@intl.zju.edu.cn>), Yihui Cen (<yihui.19@intl.zju.edu.cn>) or Zezhen Lu (<zezhen.19@intl.zju.edu.cn>).
 
 ## Reference
