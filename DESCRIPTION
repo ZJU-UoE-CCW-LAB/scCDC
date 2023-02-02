@@ -15,7 +15,7 @@ LazyData: true
 Imports: Rcpp (>= 1.0.10)
 Depends: R (>= 3.5.0), Seurat (>= 4.0.2), ddpcr (>= 1.15), dplyr (>=
         1.0.5), ggplot2 (>= 3.3.5), pbapply (>= 1.4-3), ggrepel (>=
-        0.9.1), Matrix (>= 1.5-3), pROC (>= 1.18.0)
+        0.9.1), Matrix (>= 1.5-1), pROC (>= 1.18.0)
 LinkingTo: Rcpp
 RoxygenNote: 7.2.1
 VignetteBuilder: knitr
