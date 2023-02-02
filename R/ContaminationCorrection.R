@@ -160,7 +160,7 @@ ContaminationCorrection<-function(
     thres<-Cal_thres(object,x,eGCG_aucs,auc_thres = auc_thres)
     return(thres)
   }))
-  object@assays$RNA@data <- object@assays$RNA@counts # recover the status
+  object@assays[[DefaultAssay(object)]]@data <- object@assays[[DefaultAssay(object)]]@counts # recover the status
   
   # fetch the matrix with cont_genes
   exp_matrix<-GetAssayData(object,slot='counts')
