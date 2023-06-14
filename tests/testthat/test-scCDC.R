@@ -10,7 +10,7 @@ test_sj@active.ident <- mislet_annotation
 
 test_that('ContaminationDetection with default settings works',{
   contamination <- ContaminationDetection(seuratobject = test_sj, 
-                                          restriction_factor = 0.8)
+                                          restriction_factor = 0.5)
   expect_equal(contamination, mislet_cont)
   })
 

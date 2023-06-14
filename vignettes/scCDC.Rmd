@@ -76,7 +76,7 @@ mislet_seuratobj <- RunUMAP(mislet_seuratobj,dims=1:20)
 ## Detecting global contamination-causing genes (GCGs)
 
 ```{r ContaminationDetection.1}
-contamination <- ContaminationDetection(mislet_seuratobj,restriction_factor = 0.8, 
+contamination <- ContaminationDetection(mislet_seuratobj,restriction_factor = 0.5, 
                                         sample_name = "mislet",out_path.plot = "./",
                                         out_path.table = "./")
 rownames(contamination)
@@ -148,7 +148,7 @@ FeaturePlot(mislet_seuratobj_corrected, features = c("Ins1", "Gcg"))
 
 # Getting help
 
-If any problems occur when using *scCDC*, please report it on [issues](https://github.com/TellerLu/issues). For more specific issues, [email us](yihui.19@intl.zju.edu.cn)!
+If any problems occur when using *scCDC*, please report it on [issues](https://github.com/ZJU-UoE-CCW-LAB/scCDC/issues). For more specific issues, [email us](yihui.19@intl.zju.edu.cn)!
 
 # Session information
 
@@ -157,7 +157,6 @@ sessionInfo()
 ```
 
 # References
-
-
+scCDC: a computational method for gene-specific contamination detection and correction in single-cell and single-nucleus RNA-seq data. Weijian Wang, Yihui Cen, Zezhen Lu, Yueqing Xu, Tianyi Sun, Ying Xiao, Wanlu Liu, Jingyi Jessica Li, Chaochen Wang. bioRxiv 2022.11.24.517598; doi: https://doi.org/10.1101/2022.11.24.517598
 
 

@@ -30,7 +30,7 @@ mislet_seuratobj <- RunPCA(mislet_seuratobj,
 mislet_seuratobj <- RunUMAP(mislet_seuratobj,dims=1:20)
 
 ## ----ContaminationDetection.1-------------------------------------------------
-contamination <- ContaminationDetection(mislet_seuratobj,restriction_factor = 0.8, 
+contamination <- ContaminationDetection(mislet_seuratobj,restriction_factor = 0.5, 
                                         sample_name = "mislet",out_path.plot = "./",
                                         out_path.table = "./")
 rownames(contamination)
