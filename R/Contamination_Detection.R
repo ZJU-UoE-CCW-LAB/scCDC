@@ -10,7 +10,6 @@
 #'
 #' @import Seurat
 #'
-#' @examples exp.data <- CalExpressionPercent.Seurat(object = seuratobj, gene_set = rownames(seuratobj))
 CalExpressionPercent.Seurat <- function(
   object,
   gene_set
@@ -37,7 +36,6 @@ CalExpressionPercent.Seurat <- function(
 #'
 #' CalAverageExpression.Seurat calculates average expression of genes within each cluster 
 #' based on the data/counts slot of the given seurat object.
-#'
 #' @param object a Seurat object that has been clustered.
 #' @param gene_set a vector containing genes which you want to calculate average expression.
 #' @param type a parameter setting for whether to use 'data' slot or 'counts' slot in the Seurat object to calculate average expression. "default" for calculation using 'counts' slot.
@@ -47,7 +45,6 @@ CalExpressionPercent.Seurat <- function(
 #' @import Seurat
 #' @import pbapply
 #'
-#' @examples ave.data <- CalAverageExpression.Seurat(object = seuratobj, gene_set = rownames(seuratobj))
 CalAverageExpression.Seurat <- function(
   object,
   gene_set,
@@ -82,7 +79,6 @@ CalAverageExpression.Seurat <- function(
 #' @import Seurat
 #' @import pbapply
 #'
-#' @examples entropy.data <- CalEnt.Seurat(object = seuratobj, gene_set = rownames(seuratobj))
 CalEnt.Seurat <- function(
   object,
   gene_set
@@ -115,14 +111,13 @@ CalEnt.Seurat <- function(
 #' generate_curve fits the relationship between entropy and mean expression level through bootstrapping
 #' generate_curve estimates the expected entropy based on the mean expression level within each cluster in the Seurat object
 #' 
-#' @param .x A tibble object containing 3 columns: gene name, mean expression and entropy.
-#' @param filter The parameter used to filter the points that are deviated from the curve.
-#' @param select_factor The parameter controls the selected number of genes used to do bootstrap.
+#' @param .x a tibble object containing 3 columns: gene name, mean expression and entropy.
+#' @param filter the parameter used to filter the points that are deviated from the curve.
+#' @param select_factor the parameter controls the selected number of genes used to do bootstrap.
 #' 
-#' @return A dataframe containing 7 columns: mean expression, the actual entropy, entropy divergence, the fitted entropy, p value, the adjusted p value, gene name.
+#' @return a dataframe containing 7 columns: mean expression, the actual entropy, entropy divergence, the fitted entropy, p value, the adjusted p value, gene name.
 #' @import dplyr
 #'
-#' @examples result <- generate_curve(gene_ent_ave)
 generate_curve <- function(.x, filter = 0.01, select_factor = 0.8){
   number <- round(nrow(.x)*select_factor)
   max_number <- max(.x$mean.expr)
@@ -175,18 +170,17 @@ generate_curve <- function(.x, filter = 0.01, select_factor = 0.8){
 #' generate_plot plots the fitted curve with points. Each point represents a gene in a cluster, the x axis represents the mean expression level
 #' and the y axis represents the entropy.
 #' 
-#' @param .x A dataframe which is the output of the generate_curve function.
-#' @param name The name printed on the figure.
-#' @param genes If specified a vector of genes, only these genes would be labeled on the plot. If not specified, the significantly deviated genes in the dataset would be labeled.
-#' @param point_size The parameter controls the point size in the plot.
-#' @param cutoff The threshold controls the justification of significantly deviated genes.
+#' @param .x a dataframe which is the output of the generate_curve function.
+#' @param name the name printed on the figure.
+#' @param genes if specified a vector of genes, only these genes would be labeled on the plot. If not specified, the significantly deviated genes in the dataset would be labeled.
+#' @param point_size the parameter controls the point size in the plot.
+#' @param cutoff the threshold controls the justification of significantly deviated genes.
 #'
 #' @return A ggplot object
 #' @import dplyr
 #' @import ggplot2
 #' @import ggrepel
 #'
-#' @examples plot <- generate_plot(result, 'cluster A')
 generate_plot <- function(.x, name, genes = NULL, point_size = 1.8, cutoff = 0.05){
   if(is.null(genes)){
     .x <- .x %>% dplyr::mutate(sig = ifelse(p.adj <= cutoff, 1, 0))
@@ -260,13 +254,13 @@ generate_plot <- function(.x, name, genes = NULL, point_size = 1.8, cutoff = 0.0
 #' relationship between the entropy and mean expression level of genes in a cell cluster.
 #'
 #' @param seuratobject a Seurat object that has been clustered.
-#' @param restriction_factor The parameter controls the degree of conservation when justifying the contamination causing genes. Default setting is 0.5, representing that each potential contamination-causing gene should be recognized in 50 percent of the clusters with the algorithm to be identified in the output result.
+#' @param restriction_factor the parameter controls the degree of conservation when justifying the contamination causing genes. Default setting is 0.8, representing that each potential contamination-causing gene should be recognized in 80 percent of the clusters with the algorithm to be identified in the output result.
 #' @param sample_name the name of the output contamination degree dataframe.
-#' @param min.cell The parameter used to filter the cell populations without sufficient number of cells. Cell populations that reaches the threshold could be used in downstream analysis.
-#' @param percent.cutoff The parameter used to filter the candidate contamination causing genes without sufficient expression percentage in each cluster
-#' @param out_path.plot If specified a path, the plot of the relationship between the entropy and expression would be output into the path.
-#' @param out_path.table If specified a path, a contamination degree dataframe would be output into the path.
-#' @param only.cont_genes A logical parameter controls whether only to label the contamination causing genes on the entropy-expression curve
+#' @param min.cell the parameter used to filter the cell populations without sufficient number of cells. Cell populations that reaches the threshold could be used in downstream analysis.
+#' @param percent.cutoff the parameter used to filter the candidate contamination causing genes without sufficient expression percentage in each cluster
+#' @param out_path.plot if specified a path, the plot of the relationship between the entropy and expression would be output into the path.
+#' @param out_path.table if specified a path, a contamination degree dataframe would be output into the path.
+#' @param only.cont_genes a logical parameter controls whether only to label the contamination causing genes on the entropy-expression curve
 #' 
 #' @return a dataframe containing entropy divergence results with gene names as row names, cluster names as column names, the last column is the mean entropy divergence of one gene across the clusters.
 #'
@@ -276,7 +270,6 @@ generate_plot <- function(.x, name, genes = NULL, point_size = 1.8, cutoff = 0.0
 #' @import Seurat
 #' @export
 #'
-#' @examples contamination <- ContaminationDetection(seuratobject = seuratobj)
 ContaminationDetection <- function(seuratobject, restriction_factor = 0.5, sample_name = "default",
                                          min.cell = 100, percent.cutoff = 0.2, out_path.plot = NULL, out_path.table = NULL, only.cont_genes = F){
   # fetch the the cell number of each cluster
@@ -378,7 +371,7 @@ ContaminationDetection <- function(seuratobject, restriction_factor = 0.5, sampl
       dev.off()
     }
   }
-  
+   
   message(paste0("Complete detection. ", length(filtered_contaminated_genes), " contaminated genes found"))
   
   return(contamination_result[which(rownames(contamination_result) %in% filtered_contaminated_genes), ])
