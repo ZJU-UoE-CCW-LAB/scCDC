@@ -2,7 +2,7 @@
 ### Developed by Weijian Wang, Yihui Cen, Zezhen Lu
 
 ## Description
-scCDC is a computational algorithm developed to detect contamination causing genes (GCGs) in single cell and single nuclei RNA-Seq datasets and perform further decontamination on the GCGs.
+scCDC is a computational algorithm developed to detect global contamination causing genes (GCGs) in single cell and single nuclei RNA-Seq datasets and perform further decontamination on the GCGs.
 
 ## Installation
 
@@ -15,6 +15,26 @@ if(!require("devtools")){
 
 library(devtools)
 install_github("ZJU-UoE-CCW-LAB/scCDC")
+```
+## Quick start
+If you have a Seurat Object that contains clustering information, the typical scCDC workflow would be:
+
+```{r Quick_start,eval=FALSE}
+library(devtools)
+install_github("ZJU-UoE-CCW-LAB/scCDC")
+library(scCDC)
+# load data
+seuratobject = readRDS('/path/to/seuratobject')
+# detect global contamination causing genes(GCGs)
+GCGs <- ContaminationDetection(seuratobject)
+# remove the contamination
+seuratobj_corrected <- ContaminationCorrection(seuratobject,rownames(GCGs))
+DefaultAssay(seuratobj_corrected) <- "Corrected"
+```
+
+The decontaminated count matrix is stored in the 'Corrected' assay in the output Seurat Object, which can be directly used for downstram analysis. If you want to get the decontaminted count matrix, use the following code: 
+```{r eval=FALSE}
+corrected_count_matrix = data.frame(seuratobj_corrected@assays[["Corrected"]]@counts)
 ```
 
 ## Usage
