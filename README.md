@@ -8,7 +8,7 @@ scCDC is a computational algorithm developed to detect global contamination caus
 
 `scCDC` can be installed from Github with the following code in `R`:
 
-``` r
+``` R
 if(!require("devtools")){
   install.packages("devtools")
 }
@@ -19,7 +19,7 @@ install_github("ZJU-UoE-CCW-LAB/scCDC")
 ## Quick start
 If you have a Seurat Object that contains clustering information, the typical scCDC workflow would be:
 
-``` r
+``` R
 # load data
 seuratobject = readRDS('/path/to/seuratobject')
 # detect global contamination causing genes(GCGs)
@@ -30,7 +30,7 @@ DefaultAssay(seuratobj_corrected) <- "Corrected"
 ```
 
 The decontaminated count matrix is stored in the 'Corrected' assay in the output Seurat Object, which can be directly used for downstram analysis. If you want to get the decontaminted count matrix, use the following code: 
-```{r eval=FALSE}
+```R
 corrected_count_matrix = data.frame(seuratobj_corrected@assays[["Corrected"]]@counts)
 ```
 
@@ -38,7 +38,7 @@ corrected_count_matrix = data.frame(seuratobj_corrected@assays[["Corrected"]]@co
 
 For detailed info on `scCDC` method and applications, please check out the package [vignettes](https://htmlpreview.github.io/?https://github.com/ZJU-UoE-CCW-LAB/scCDC/blob/main/inst/doc/scCDC.html), or with the following code in `R`: 
 
-``` r
+``` R
 browseVignettes("scCDC")
 ```
 
