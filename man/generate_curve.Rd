@@ -7,19 +7,16 @@
 generate_curve(.x, filter = 0.01, select_factor = 0.8)
 }
 \arguments{
-\item{.x}{A tibble object containing 3 columns: gene name, mean expression and entropy.}
+\item{.x}{a tibble object containing 3 columns: gene name, mean expression and entropy.}
 
-\item{filter}{The parameter used to filter the points that are deviated from the curve.}
+\item{filter}{the parameter used to filter the points that are deviated from the curve.}
 
-\item{select_factor}{The parameter controls the selected number of genes used to do bootstrap.}
+\item{select_factor}{the parameter controls the selected number of genes used to do bootstrap.}
 }
 \value{
-A dataframe containing 7 columns: mean expression, the actual entropy, entropy divergence, the fitted entropy, p value, the adjusted p value, gene name.
+a dataframe containing 7 columns: mean expression, the actual entropy, entropy divergence, the fitted entropy, p value, the adjusted p value, gene name.
 }
 \description{
 generate_curve fits the relationship between entropy and mean expression level through bootstrapping
 generate_curve estimates the expected entropy based on the mean expression level within each cluster in the Seurat object
-}
-\examples{
-result <- generate_curve(gene_ent_ave)
 }

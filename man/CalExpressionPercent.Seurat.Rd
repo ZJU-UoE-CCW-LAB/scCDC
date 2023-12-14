@@ -18,6 +18,3 @@ a matrix containing expression percent results with gene names as row names, clu
 CalExpressionPercent.Seurat calculates the expression percent of genes within each cluster 
 based on the 'counts' slot of the given seurat object.
 }
-\examples{
-exp.data <- CalExpressionPercent.Seurat(object = seuratobj, gene_set = rownames(seuratobj))
-}

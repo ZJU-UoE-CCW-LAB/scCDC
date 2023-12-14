@@ -18,6 +18,3 @@ an AUROC (Area Under the Receiver Operating Characteristics) value
 Calculate the AUROC based on the values representing cellular expression levels and the
 corresponding cell type (two types) information.
 }
-\examples{
-AUC_res <- test_roc(exp_value, cell_type)
-}

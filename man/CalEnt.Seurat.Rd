@@ -18,6 +18,3 @@ a matrix containing entropy results with gene names as row names, cluster names 
 This method calculates the Shannon's entropy of the observed counts of genes within each cluster in the Seurat object.
 CalEnt.Seurat calculates entropy of genes based on the 'counts' slot in the Seurat object.
 }
-\examples{
-entropy.data <- CalEnt.Seurat(object = seuratobj, gene_set = rownames(seuratobj))
-}

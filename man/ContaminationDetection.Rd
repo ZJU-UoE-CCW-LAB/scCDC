@@ -18,19 +18,19 @@ ContaminationDetection(
 \arguments{
 \item{seuratobject}{a Seurat object that has been clustered.}
 
-\item{restriction_factor}{The parameter controls the degree of conservation when justifying the contamination causing genes. Default setting is 0.5, representing that each potential contamination-causing gene should be recognized in 50 percent of the clusters with the algorithm to be identified in the output result.}
+\item{restriction_factor}{the parameter controls the degree of conservation when justifying the contamination causing genes. Default setting is 0.8, representing that each potential contamination-causing gene should be recognized in 80 percent of the clusters with the algorithm to be identified in the output result.}
 
 \item{sample_name}{the name of the output contamination degree dataframe.}
 
-\item{min.cell}{The parameter used to filter the cell populations without sufficient number of cells. Cell populations that reaches the threshold could be used in downstream analysis.}
+\item{min.cell}{the parameter used to filter the cell populations without sufficient number of cells. Cell populations that reaches the threshold could be used in downstream analysis.}
 
-\item{percent.cutoff}{The parameter used to filter the candidate contamination causing genes without sufficient expression percentage in each cluster}
+\item{percent.cutoff}{the parameter used to filter the candidate contamination causing genes without sufficient expression percentage in each cluster}
 
-\item{out_path.plot}{If specified a path, the plot of the relationship between the entropy and expression would be output into the path.}
+\item{out_path.plot}{if specified a path, the plot of the relationship between the entropy and expression would be output into the path.}
 
-\item{out_path.table}{If specified a path, a contamination degree dataframe would be output into the path.}
+\item{out_path.table}{if specified a path, a contamination degree dataframe would be output into the path.}
 
-\item{only.cont_genes}{A logical parameter controls whether only to label the contamination causing genes on the entropy-expression curve}
+\item{only.cont_genes}{a logical parameter controls whether only to label the contamination causing genes on the entropy-expression curve}
 }
 \value{
 a dataframe containing entropy divergence results with gene names as row names, cluster names as column names, the last column is the mean entropy divergence of one gene across the clusters.
@@ -38,7 +38,4 @@ a dataframe containing entropy divergence results with gene names as row names, 
 \description{
 ContaminationDetection detects the contamination causing genes in the Seurat object based on the 
 relationship between the entropy and mean expression level of genes in a cell cluster.
-}
-\examples{
-contamination <- ContaminationDetection(seuratobject = seuratobj)
 }

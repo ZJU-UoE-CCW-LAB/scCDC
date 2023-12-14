@@ -20,6 +20,3 @@ a matrix containing average expression results with gene names as row names, clu
 CalAverageExpression.Seurat calculates average expression of genes within each cluster 
 based on the data/counts slot of the given seurat object.
 }
-\examples{
-ave.data <- CalAverageExpression.Seurat(object = seuratobj, gene_set = rownames(seuratobj))
-}

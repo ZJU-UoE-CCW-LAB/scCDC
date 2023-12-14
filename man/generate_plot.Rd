@@ -7,15 +7,15 @@
 generate_plot(.x, name, genes = NULL, point_size = 1.8, cutoff = 0.05)
 }
 \arguments{
-\item{.x}{A dataframe which is the output of the generate_curve function.}
+\item{.x}{a dataframe which is the output of the generate_curve function.}
 
-\item{name}{The name printed on the figure.}
+\item{name}{the name printed on the figure.}
 
-\item{genes}{If specified a vector of genes, only these genes would be labeled on the plot. If not specified, the significantly deviated genes in the dataset would be labeled.}
+\item{genes}{if specified a vector of genes, only these genes would be labeled on the plot. If not specified, the significantly deviated genes in the dataset would be labeled.}
 
-\item{point_size}{The parameter controls the point size in the plot.}
+\item{point_size}{the parameter controls the point size in the plot.}
 
-\item{cutoff}{The threshold controls the justification of significantly deviated genes.}
+\item{cutoff}{the threshold controls the justification of significantly deviated genes.}
 }
 \value{
 A ggplot object
@@ -23,7 +23,4 @@ A ggplot object
 \description{
 generate_plot plots the fitted curve with points. Each point represents a gene in a cluster, the x axis represents the mean expression level
 and the y axis represents the entropy.
-}
-\examples{
-plot <- generate_plot(result, 'cluster A')
 }

@@ -22,6 +22,3 @@ with the lowest expression level will be compared with each other cell cluster (
 itself) and then generate the corresponding AUROC value. These values will output with 
 the cluster names.
 }
-\examples{
-AUCs <- Cal_AUCs(seuratobj, gene)
-}

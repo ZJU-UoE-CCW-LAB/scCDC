@@ -26,6 +26,3 @@ maximized. The eGCG_positive and eGCG_negative clusters will be identified based
 the input eGCG_aucs and the user-specified auc_thres. The cluster with the auc value
 smaller than the auc_thres will be identified as eGCG_negative cluster.
 }
-\examples{
-count_thres <- Cal_thres(seuratobj, gene, eGCG_aucs, auc_thres)
-}
