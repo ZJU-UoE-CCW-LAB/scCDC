@@ -20,9 +20,6 @@ install_github("ZJU-UoE-CCW-LAB/scCDC")
 If you have a Seurat Object that contains clustering information, the typical scCDC workflow would be:
 
 ```{r Quick_start,eval=FALSE}
-library(devtools)
-install_github("ZJU-UoE-CCW-LAB/scCDC")
-library(scCDC)
 # load data
 seuratobject = readRDS('/path/to/seuratobject')
 # detect global contamination causing genes(GCGs)
