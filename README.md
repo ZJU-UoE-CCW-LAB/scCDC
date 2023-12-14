@@ -22,11 +22,8 @@ If you have a Seurat Object that contains clustering information, the typical sc
 
 ``` R
 seuratobject = readRDS('/path/to/seuratobject')
-
 GCGs <- ContaminationDetection(seuratobject)
-
 seuratobj_corrected <- ContaminationCorrection(seuratobject,rownames(GCGs))
-
 DefaultAssay(seuratobj_corrected) <- "Corrected"
 ```
 
@@ -34,6 +31,7 @@ The decontaminated count matrix is stored in the 'Corrected' assay in the output
 ```R
 corrected_count_matrix = data.frame(seuratobj_corrected@assays[["Corrected"]]@counts)
 ```
+If you want to start with count matrix, see vignette for details.
 
 ## Usage
 
