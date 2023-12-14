@@ -46,3 +46,4 @@ browseVignettes("scCDC")
 Any questions or suggestions on `scCDC` are welcomed! Please report it on [issues](https://github.com/ZJU-UoE-CCW-LAB/scCDC/issues), or contact Weijian Wang (<weijianwang@ucla.edu>), Yihui Cen (<yihuicen@g.ucla.edu>) or Zezhen Lu (<12307092@zju.edu.cn>).
 
 ## Reference
+scCDC: a computational method for gene-specific contamination detection and correction in single-cell and single-nucleus RNA-seq data. Weijian Wang, Yihui Cen, Zezhen Lu, Yueqing Xu, Tianyi Sun, Ying Xiao, Wanlu Liu, Jingyi Jessica Li, Chaochen Wang. bioRxiv 2022.11.24.517598; doi: https://doi.org/10.1101/2022.11.24.517598
