@@ -2,7 +2,7 @@
 ### Developed by Weijian Wang, Yihui Cen, Zezhen Lu
 
 ## Description
-scCDC is a computational algorithm developed to detect global contamination causing genes (GCGs) in single cell and single nuclei RNA-Seq datasets and perform further decontamination on the GCGs.
+scCDC is a computational algorithm developed to detect global contamination-causing genes (GCGs) in single cell and single nuclei RNA-Seq datasets and perform further decontamination on the GCGs.
 
 ## Installation
 
@@ -31,7 +31,7 @@ The decontaminated count matrix is stored in the 'Corrected' assay in the output
 ```R
 corrected_count_matrix = data.frame(seuratobj_corrected@assays[["Corrected"]]@counts)
 ```
-If you want to start with count matrix, see vignette for details.
+If you want to start with count matrix, see [vignettes](https://htmlpreview.github.io/?https://github.com/ZJU-UoE-CCW-LAB/scCDC/blob/main/inst/doc/scCDC.html) for details.
 
 ## Usage
 
@@ -43,6 +43,6 @@ browseVignettes("scCDC")
 
 ## Contact
 
-Any questions or suggestions on `scCDC` are welcomed! Please report it on [issues](https://github.com/ZJU-UoE-CCW-LAB/scCDC/issues), or contact Weijian Wang (<weijian.19@intl.zju.edu.cn>), Yihui Cen (<yihui.19@intl.zju.edu.cn>) or Zezhen Lu (<zezhen.19@intl.zju.edu.cn>).
+Any questions or suggestions on `scCDC` are welcomed! Please report it on [issues](https://github.com/ZJU-UoE-CCW-LAB/scCDC/issues), or contact Weijian Wang (<weijianwang@ucla.edu>), Yihui Cen (<yihuicen@g.ucla.edu>) or Zezhen Lu (<12307092@zju.edu.cn>).
 
 ## Reference
