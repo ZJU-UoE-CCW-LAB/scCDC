@@ -18,12 +18,19 @@ install_github("ZJU-UoE-CCW-LAB/scCDC")
 ```
 ## Quick start
 If you have a Seurat Object that contains clustering information, the typical scCDC workflow would be:
-
+Load your data
 ``` R
 seuratobject = readRDS('/path/to/seuratobject')
-# detect global contamination causing genes(GCGs)
+```
+Detect global contamination causing genes(GCGs)
+
+``` R
 GCGs <- ContaminationDetection(seuratobject)
-# remove the contamination
+
+```
+Remove the contamination
+
+``` R
 seuratobj_corrected <- ContaminationCorrection(seuratobject,rownames(GCGs))
 DefaultAssay(seuratobj_corrected) <- "Corrected"
 ```
