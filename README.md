@@ -22,9 +22,9 @@ If you have a Seurat Object that contains clustering information, the typical sc
 
 ``` R
 seuratobject = readRDS('/path/to/seuratobject')
-GCGs <- ContaminationDetection(seuratobject)
-seuratobj_corrected <- ContaminationCorrection(seuratobject,rownames(GCGs))
-DefaultAssay(seuratobj_corrected) <- "Corrected"
+GCGs = ContaminationDetection(seuratobject)
+seuratobj_corrected = ContaminationCorrection(seuratobject,rownames(GCGs))
+DefaultAssay(seuratobj_corrected) = "Corrected"
 ```
 
 The decontaminated count matrix is stored in the 'Corrected' assay in the output Seurat Object, which can be directly used for downstram analysis. If you want to get the decontaminted count matrix, use the following code: 
