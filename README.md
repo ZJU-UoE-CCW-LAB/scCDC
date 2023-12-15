@@ -21,6 +21,7 @@ If you have a Seurat Object that contains clustering information, the typical sc
 
 
 ``` R
+library(scCDC)
 seuratobject = readRDS('/path/to/seuratobject')
 GCGs = ContaminationDetection(seuratobject)
 seuratobj_corrected = ContaminationCorrection(seuratobject,rownames(GCGs))
