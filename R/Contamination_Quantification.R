@@ -35,7 +35,7 @@ Cal_Cont_level <- function(object,gene,eGCG_aucs,auc_thres,slot){
   eGCG_neg_cells_exps<-obj_exp[gene,eGCG_neg_cells]
   eGCG_pos_cells_exps<-obj_exp[gene,eGCG_pos_cells]
   
-  cont_index = log(sum(eGCG_neg_cells_exps)/sum(obj_exp[,eGCG_neg_cells]))+11
+  cont_index = log(sum(eGCG_neg_cells_exps)/sum(obj_exp[,eGCG_neg_cells]))
   
   return(cont_index)
 }
@@ -79,10 +79,10 @@ ContaminationQuantification <- function(object,cont_genes,
     index<-Cal_Cont_level(object,x,eGCG_aucs[[1]],auc_thres = auc_thres,slot)
     return(index)
   }))
-  if (max(index_vals)>4){
-    message(paste0('The maximum contamination index is:',round(max(index_vals),2),', which indicates high contamination in this dataset. scCDC is highly recommended to be applied.'))
+  if (max(index_vals)>-7){
+    message(paste0('The maximum contamination ratio is:',round(max(index_vals),2),', which indicates high contamination in this dataset. scCDC is highly recommended to be applied.'))
   }else{
-    message(paste0('The maximum contamination index is:',round(max(index_vals),2),', which indicates low contamination in this dataset. Either DecontX or scCDC is recommended to be applied.'))
+    message(paste0('The maximum contamination ratio is:',round(max(index_vals),2),', which indicates low contamination in this dataset. Either DecontX or scCDC is recommended to be applied.'))
   }
   return(max(index_vals))
 }
