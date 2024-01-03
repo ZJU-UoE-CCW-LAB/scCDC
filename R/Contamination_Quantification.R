@@ -35,7 +35,7 @@ Cal_Cont_level <- function(object,gene,eGCG_aucs,auc_thres,slot){
   eGCG_neg_cells_exps<-obj_exp[gene,eGCG_neg_cells]
   eGCG_pos_cells_exps<-obj_exp[gene,eGCG_pos_cells]
   
-  cont_index = log(sum(eGCG_neg_cells_exps)/sum(obj_exp[,eGCG_neg_cells]))
+  cont_index = log10(sum(eGCG_neg_cells_exps)/sum(obj_exp[,eGCG_neg_cells]))
   
   return(cont_index)
 }
