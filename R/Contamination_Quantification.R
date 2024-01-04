@@ -80,9 +80,9 @@ ContaminationQuantification <- function(object,cont_genes,
     return(index)
   }))
   if (max(index_vals)>0.0003){
-    message(paste0('The maximum contamination ratio is:',round(max(index_vals),2),', which indicates high contamination in this dataset. scCDC is highly recommended to be applied.'))
+    message(paste0('The maximum contamination ratio is:',round(max(index_vals),5),', which indicates high contamination in this dataset. scCDC is highly recommended to be applied.'))
   }else{
-    message(paste0('The maximum contamination ratio is:',round(max(index_vals),2),', which indicates low contamination in this dataset. Either DecontX or scCDC is recommended to be applied.'))
+    message(paste0('The maximum contamination ratio is:',round(max(index_vals),5),', which indicates low contamination in this dataset. Either DecontX or scCDC is recommended to be applied.'))
   }
   return(max(index_vals))
 }
