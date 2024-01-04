@@ -153,7 +153,7 @@ Details related to DecontX are in <https://github.com/campbio/decontX>
 
 # Contamination correction
 
-The contamination index of the sample mouse islet data is higher than 7, we next use `ContaminationCorrection` function to decontaminate the dataset.
+The contamination ratio of the sample mouse islet data is higher than 0.0003, we next use `ContaminationCorrection` function to decontaminate the dataset.
 
 ```{r ContaminationCorrection.1}
 mislet_seuratobj_corrected <- ContaminationCorrection(mislet_seuratobj, rownames(GCGs))
