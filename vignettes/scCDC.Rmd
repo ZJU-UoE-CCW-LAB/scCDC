@@ -138,16 +138,16 @@ GCGs <- ContaminationDetection(mislet_seuratobj,restriction_factor = 0.5,
 
 The value of restriction_factor represents how strict we are about the identified GCGs. Higher value would make `ContaminationDetection` return less GCGs with higher credibility. The default value of restriction_factor is 0.5. The Expression-Entropy plots and the full entropy divergence table would be stored under the specified path.
 
-# Contamination index calculation
+# Contamination quantification
 
-It is often the cases that users do not know the extent of contamination in their data. Leveraing the identified GCGs, scCDC could calculate a contamination index to represent the contamination level in the data. Higher index represents higher contamination level. The contamination index could be calculated using `ContaminationQuantification` function:
+It is often the cases that users do not know the extent of contamination in their data. Leveraging the identified GCGs, scCDC could calculate a contamination ratio to represent the contamination level in the data. Higher ratio represents higher contamination level. The contamination ratio could be calculated using `ContaminationQuantification` function:
 
 ```{r}
-mislet_index <- ContaminationQuantification(mislet_seuratobj,rownames(GCGs))
-mislet_index
+mislet_cont_ratio <- ContaminationQuantification(mislet_seuratobj,rownames(GCGs))
+mislet_cont_ratio
 ```
 
-Contamination index higher than 4 indicates severe contamination and using scCDC for decontamination is highly recommended. If the contamination index is lower than 4, both scCDC and other decontamination tools (e.g. DecontX) are recommended for decontamination.
+Contamination ratio higher than 0.0003 indicates severe contamination and using scCDC for decontamination is highly recommended. If the contamination ratio is lower than 0.0003, both scCDC and other decontamination tools (e.g. DecontX) are recommended for decontamination.
 
 Details related to DecontX are in <https://github.com/campbio/decontX>
 
