@@ -2,7 +2,7 @@
 % Please edit documentation in R/Contamination_Quantification.R
 \name{ContaminationQuantification}
 \alias{ContaminationQuantification}
-\title{Calculate contamination index for a dataset}
+\title{Calculate contamination ratio for a dataset}
 \usage{
 ContaminationQuantification(
   object,
@@ -20,14 +20,14 @@ ContaminationQuantification(
 
 \item{min.cell}{the parameter used to filter the cell populations without sufficient number of cells. Cell populations that reaches the threshold could be used in downstream analysis.}
 
-\item{top10_gcg}{a parameter controlling whether to use the top 10 GCGs for calculating contamination index}
+\item{top10_gcg}{a parameter controlling whether to use the top 10 GCGs for calculating contamination ratio}
 
-\item{slot}{the slot used for calculating contamination index}
+\item{slot}{the slot used for calculating contamination ratio}
 }
 \value{
-the maximum value of the calculated contamination index
+the maximum value of the calculated contamination ratio
 }
 \description{
-Calculating the contamination index for a dataset leveraging GCGs. For each GCG, the contamination level is calculated by dividing its total expression in eGCG- cells by 
-the total expression of all genes in the eGCG- cells. The maximum of contamination index is returned. Higher contamination index represents higher contamination level.
+Calculating the contamination ratio for a dataset leveraging GCGs. For each GCG, the contamination level is calculated by dividing its total expression in eGCG- cells by 
+the total expression of all genes in the eGCG- cells. The maximum of contamination ratio is returned. Higher contamination ratio represents higher contamination level.
 }

@@ -15,10 +15,10 @@ Cal_Cont_level(object, gene, eGCG_aucs, auc_thres, slot)
 
 \item{auc_thres}{the AUROC threshold to determine the boundary between eGCG_positive and eGCG_negative clusters (Default as 0.9, 90 percent)}
 
-\item{slot}{the slot used for calculating contamination index}
+\item{slot}{the slot used for calculating contamination ratio}
 }
 \value{
-an index representing the contamination level calculated using the input gene
+an ratio representing the contamination level calculated using the input gene
 }
 \description{
 For one GCG, the contamination level is calculated by dividing its total expression in eGCG- cells by the total expression
