@@ -62,8 +62,8 @@ rownames(GCGs)
 #                                          out_path.table = "./")
 
 ## -----------------------------------------------------------------------------
-mislet_index <- ContaminationQuantification(mislet_seuratobj,rownames(GCGs))
-mislet_index
+mislet_cont_ratio <- ContaminationQuantification(mislet_seuratobj,rownames(GCGs))
+mislet_cont_ratio
 
 ## ----ContaminationCorrection.1------------------------------------------------
 mislet_seuratobj_corrected <- ContaminationCorrection(mislet_seuratobj, rownames(GCGs))
