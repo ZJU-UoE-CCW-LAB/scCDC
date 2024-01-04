@@ -21,4 +21,4 @@ LinkingTo: Rcpp
 RoxygenNote: 7.2.3
 VignetteBuilder: knitr
 NeedsCompilation: yes
-Packaged: 2024-01-04 04:25:38 UTC; weijianwang
+Packaged: 2024-01-04 04:38:34 UTC; weijianwang
