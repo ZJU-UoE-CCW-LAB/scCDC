@@ -18,8 +18,8 @@ install_github("ZJU-UoE-CCW-LAB/scCDC")
 ```
 The current version of `scCDC` is developed based on Seurat V4, which can be installed with the following code in `R`:
 ``` R
-if (!requireNamespace("remotes", quietly = TRUE))
-    install.packages("remotes")
+if (!require("remotes")){
+    install.packages("remotes")}
 
 library(remotes)
 remotes::install_github("satijalab/seurat", ref="release/4.3.0")
