@@ -21,6 +21,7 @@ The current version of `scCDC` is developed based on Seurat V4, which can be ins
 if (!requireNamespace("remotes", quietly = TRUE))
     install.packages("remotes")
 
+library(remotes)
 remotes::install_github("satijalab/seurat", ref="release/4.3.0")
 ```
 ## Quick start
