@@ -16,14 +16,9 @@ if(!require("devtools", quietly = TRUE)){
 library(devtools)
 install_github("ZJU-UoE-CCW-LAB/scCDC")
 ```
-The current version of scCDC is developed based on Seurat V4, and we plan to update it to be compatible with Seurat V5 in the near future. Seurat V4 can be installed with the following code in `R`:
+The current version of scCDC is developed based on Seurat V5. Seurat V5 can be installed with the following code in `R`:
 ``` R
-if (!require("remotes", quietly = TRUE)){
-    install.packages("remotes")
-}
-
-library(remotes)
-remotes::install_github("satijalab/seurat", ref="release/4.3.0")
+install.packages('Seurat')
 ```
 ## Quick start
 If you have a Seurat Object that contains clustering information, the typical scCDC workflow would be:
