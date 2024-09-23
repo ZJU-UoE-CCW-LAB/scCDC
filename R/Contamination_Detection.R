@@ -1,7 +1,7 @@
 #' Calculate expression percent
 #'
 #' CalExpressionPercent.Seurat calculates the expression percent of genes within each cluster 
-#' based on the 'counts' slot of the given seurat object.
+#' based on the 'counts' layer of the given seurat object.
 #'
 #' @param object a Seurat object that has been clustered.
 #' @param gene_set a vector containing genes which you want to calculate the expression percent.
@@ -19,7 +19,7 @@ CalExpressionPercent.Seurat <- function(
   # calculate the expression percentage of each cluster for each gene
   output.list <- lapply(levels, function(x){
     tmp <- subset(object, idents = x)
-    gene.data.dat <- as.data.frame(GetAssayData(tmp, slot = 'counts'))[gene_set, ]
+    gene.data.dat <- as.data.frame(GetAssayData(tmp, layer = 'counts'))[gene_set, ]
     gene.exp.percent <- apply(gene.data.dat, 1, function(x){
       gene.exp.percent <- 1-(length(which(x == 0))/length(x))
       return(gene.exp.percent)
@@ -35,10 +35,10 @@ CalExpressionPercent.Seurat <- function(
 #' Calculate average expression
 #'
 #' CalAverageExpression.Seurat calculates average expression of genes within each cluster 
-#' based on the data/counts slot of the given seurat object.
+#' based on the data/counts layer of the given seurat object.
 #' @param object a Seurat object that has been clustered.
 #' @param gene_set a vector containing genes which you want to calculate average expression.
-#' @param type a parameter setting for whether to use 'data' slot or 'counts' slot in the Seurat object to calculate average expression. "default" for calculation using 'counts' slot.
+#' @param type a parameter setting for whether to use 'data' layer or 'counts' layer in the Seurat object to calculate average expression. "default" for calculation using 'counts' layer.
 #'
 #' @return a matrix containing average expression results with gene names as row names, cluster names as column names.
 #'
@@ -55,7 +55,7 @@ CalAverageExpression.Seurat <- function(
   # calculate the mean expression level of each cluster for each gene
   output.list <- pblapply(levels, function(x) {
     tmp <- subset(object, idents = x)
-    gene.data.dat <- as.data.frame(GetAssayData(tmp, slot = type))[gene_set, ]
+    gene.data.dat <- as.data.frame(GetAssayData(tmp, layer = type))[gene_set, ]
     gene.set.data <- apply(gene.data.dat, 1, mean)
     return(gene.set.data)
   })
@@ -68,7 +68,7 @@ CalAverageExpression.Seurat <- function(
 #' Calculate the entropy 
 #'
 #' This method calculates the Shannon's entropy of the observed counts of genes within each cluster in the Seurat object.
-#' CalEnt.Seurat calculates entropy of genes based on the 'counts' slot in the Seurat object.
+#' CalEnt.Seurat calculates entropy of genes based on the 'counts' layer in the Seurat object.
 #' 
 #' @param object a Seurat object that has been clustered.
 #' @param gene_set a vector containing genes which you want to calculate entropy for.
@@ -88,7 +88,7 @@ CalEnt.Seurat <- function(
   # calculate the entropy of each cluster for each gene
   output.list <- pblapply(levels, function(x) {
     tmp <- subset(object, idents = x)
-    gene.data.dat <- as.matrix(GetAssayData(tmp, slot = 'counts'))[gene_set, ]
+    gene.data.dat <- as.matrix(GetAssayData(tmp, layer = 'counts'))[gene_set, ]
     if(is.matrix(gene.data.dat)){
       gene.set.ent <- MatrixToEntropy(gene.data.dat)
     }

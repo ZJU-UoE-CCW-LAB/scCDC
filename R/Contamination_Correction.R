@@ -38,10 +38,15 @@ simple_roc <- function(exp,class){
 Cal_AUCs <- function(object,gene,qualified_cls){
   # obtain the average expression level of each cluster
   ave_exp <- AverageExpression(object, features = gene)
+  
   exps <- ave_exp[[1]]
-  # sort the cluster with the average expression level
   exp_sort <- as.vector(exps)
-  names(exp_sort) <- colnames(exps)
+  if (any(grepl("^g[0-9]+$", colnames(exps)))) {
+    names(exp_sort) <- gsub("^g([0-9]+)$", "\\1", colnames(exps))
+  }else{
+    names(exp_sort) <- colnames(exps)
+  }
+  # sort the cluster with the average expression level
   exp_sort <- sort(exp_sort)
   cls <- names(exp_sort)
   # find the cluster with the lowest average expression level 
@@ -54,7 +59,7 @@ Cal_AUCs <- function(object,gene,qualified_cls){
     cls_cells <- WhichCells(object, idents = cluster)
     neg_cells <- WhichCells(object, idents = eGCG_neg)
     
-    counts_exp <- GetAssayData(object, slot = 'counts')
+    counts_exp <- GetAssayData(object, layer = 'counts')
     counts_exps <- counts_exp[gene, c(cls_cells, neg_cells)]
     
     class <- c(rep(1, length(cls_cells)), rep(0, length(neg_cells)))
@@ -106,7 +111,7 @@ Cal_thres <- function(object,gene,eGCG_aucs,auc_thres){
   eGCG_pos_cells<-WhichCells(object,ident=low_pos)
   
   # obtain count values
-  obj_exp<-GetAssayData(object,slot = 'counts')
+  obj_exp<-GetAssayData(object,layer = 'counts')
   eGCG_neg_cells_exps<-obj_exp[gene,eGCG_neg_cells]
   eGCG_pos_cells_exps<-obj_exp[gene,eGCG_pos_cells]
   
@@ -157,10 +162,10 @@ ContaminationCorrection<-function(
     thres<-Cal_thres(object,x,eGCG_aucs[[1]],auc_thres = auc_thres)
     return(thres)
   }))
-  object@assays[[DefaultAssay(object)]]@data <- object@assays[[DefaultAssay(object)]]@counts # recover the status
+  object@assays[[DefaultAssay(object)]]@layers[["data"]] <- object@assays[[DefaultAssay(object)]]@layers[["counts"]] # recover the status
   
   # fetch the matrix with cont_genes
-  exp_matrix<-GetAssayData(object,slot='counts')
+  exp_matrix<-GetAssayData(object,layer='counts')
   decont_matrix_tmp<-exp_matrix[cont_genes,]
   if(length(cont_genes)==1){
     decont_matrix_tmp<-t(as.matrix(decont_matrix_tmp))
@@ -179,7 +184,7 @@ ContaminationCorrection<-function(
   # cover the original counts with corrected counts
   exp_matrix[cont_genes,]<-corrected_mat_part
   
-  Corrected_Assay<-CreateAssayObject(counts = Matrix(exp_matrix,sparse = T))
+  Corrected_Assay<-CreateAssay5Object(counts = Matrix(exp_matrix,sparse = T))
   object@assays[['Corrected']]<-Corrected_Assay
   # add the default key to avoid some version problems
   object@assays$Corrected@key = "corrected_"
