@@ -25,7 +25,7 @@ if (!require("remotes", quietly = TRUE)){
 library(remotes)
 remotes::install_github("satijalab/seurat", ref="release/4.3.0")
 ```
-If you want to use Seurat V5, please check [scCDC 1.4](https://github.com/ZJU-UoE-CCW-LAB/scCDC)
+If you want to use Seurat V5, please check [scCDC version 1.4](https://github.com/ZJU-UoE-CCW-LAB/scCDC)
 ## Quick start
 If you have a Seurat Object that contains clustering information, the typical scCDC workflow would be:
 
