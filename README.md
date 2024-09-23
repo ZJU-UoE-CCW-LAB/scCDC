@@ -16,7 +16,7 @@ if(!require("devtools", quietly = TRUE)){
 library(devtools)
 install_github("ZJU-UoE-CCW-LAB/scCDC",ref = "sccdc-1.3")
 ```
-The current version of scCDC is developed based on Seurat V4. Seurat V4 can be installed with the following code in `R`:
+This version of scCDC is developed based on Seurat V4. Seurat V4 can be installed with the following code in `R`:
 ``` R
 if (!require("remotes", quietly = TRUE)){
     install.packages("remotes")
