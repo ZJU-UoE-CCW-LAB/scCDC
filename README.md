@@ -21,7 +21,7 @@ The current version of scCDC is developed based on Seurat V5. Seurat V5 can be i
 install.packages('Seurat')
 ```
 
-If you have want to use Seurat V4, please check the scCDC version 1.3, which can be installed with the following code in `R`:
+If you want to use Seurat V4, please check the scCDC version 1.3, which can be installed with the following code in `R`:
 ``` R
 install_github("ZJU-UoE-CCW-LAB/scCDC",ref = "sccdc-1.3")
 ```
