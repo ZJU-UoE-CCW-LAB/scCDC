@@ -40,7 +40,7 @@ DefaultAssay(seuratobj_corrected) = "Corrected"
 
 The decontaminated count matrix is stored in the 'Corrected' assay in the output Seurat Object, which can be directly used for downstram analysis. If you want to get the decontaminted count matrix, use the following code: 
 ```R
-corrected_count_matrix = data.frame(seuratobj_corrected@assays[["Corrected"]]@counts)
+corrected_count_matrix = data.frame(seuratobj_corrected@assays[["Corrected"]]@layers$counts)
 ```
 If you want to start with count matrix, see [vignettes](https://htmlpreview.github.io/?https://github.com/ZJU-UoE-CCW-LAB/scCDC/blob/main/inst/doc/scCDC.html) for details.
 
