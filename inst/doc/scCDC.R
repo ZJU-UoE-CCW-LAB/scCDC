@@ -23,7 +23,7 @@ suppressPackageStartupMessages(library(ddpcr))
 #  DefaultAssay(seuratobj_corrected) <- "Corrected"
 
 ## ----eval=FALSE---------------------------------------------------------------
-#  corrected_count_matrix <- data.frame(seuratobj_corrected@assays[["Corrected"]]@counts)
+#  corrected_count_matrix <- data.frame(seuratobj_corrected@assays[["Corrected"]]@layers$counts)
 
 ## ----eval=FALSE---------------------------------------------------------------
 #  if(!require("devtools")){
@@ -69,7 +69,7 @@ mislet_cont_ratio
 mislet_seuratobj_corrected <- ContaminationCorrection(mislet_seuratobj, rownames(GCGs))
 
 ## ----eval=FALSE---------------------------------------------------------------
-#  corrected_count_matrix = data.frame(mislet_seuratobj_corrected@assays[["Corrected"]]@counts)
+#  corrected_count_matrix = data.frame(mislet_seuratobj_corrected@assays[["Corrected"]]@layers$counts)
 
 ## ----ContaminationCorrection.2------------------------------------------------
 DefaultAssay(mislet_seuratobj_corrected) <- "Corrected"
