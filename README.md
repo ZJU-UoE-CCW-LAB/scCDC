@@ -43,7 +43,7 @@ The decontaminated count matrix is stored in the 'Corrected' assay in the output
 ```R
 corrected_count_matrix = data.frame(seuratobj_corrected@assays[["Corrected"]]@counts)
 ```
-If you want to start with count matrix, see [vignettes](https://htmlpreview.github.io/?https://github.com/ZJU-UoE-CCW-LAB/scCDC/blob/main/inst/doc/scCDC.html) for details.
+If you want to start with count matrix, see [vignettes](https://github.com/ZJU-UoE-CCW-LAB/scCDC/tree/sccdc-1.3/blob/main/inst/doc/scCDC.html) for details.
 
 ## Usage
 
