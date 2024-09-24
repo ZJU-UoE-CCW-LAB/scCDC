@@ -23,7 +23,7 @@ install.packages('Seurat')
 
 If you want to use Seurat V4, please check the [scCDC version 1.3](https://github.com/ZJU-UoE-CCW-LAB/scCDC/tree/sccdc-1.3).
 ## Quick start
-If you have a Seurat Object that contains clustering information, the typical scCDC workflow would be:
+scCDC operates under the assumption that contamination is specific to each individual sample. Therefore, scCDC should be applied to one sample at a time. If you have a Seurat Object that contains clustering information, the typical scCDC workflow would be:
 
 
 ``` R
