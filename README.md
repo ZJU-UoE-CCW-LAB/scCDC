@@ -47,7 +47,7 @@ If you want to start with count matrix, see [vignettes](https://htmlpreview.gith
 
 ## Usage
 
-For detailed info on `scCDC` method and applications, please check out the package [vignettes](https://htmlpreview.github.io/?https://github.com/ZJU-UoE-CCW-LAB/scCDC/blob/main/inst/doc/scCDC.html), or with the following code in `R`: 
+For detailed info on `scCDC` method and applications, please check out the package [vignettes](https://htmlpreview.github.io/?https://github.com/ZJU-UoE-CCW-LAB/scCDC/blob/sccdc-1.3/inst/doc/scCDC.html), or with the following code in `R`: 
 
 ``` R
 browseVignettes("scCDC")
