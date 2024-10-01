@@ -48,7 +48,9 @@ all.genes <- rownames(mislet_seuratobj)
 mislet_seuratobj <- ScaleData(mislet_seuratobj, features = all.genes)
 mislet_seuratobj <- RunPCA(mislet_seuratobj, 
                                 features = VariableFeatures(object = mislet_seuratobj))
-# We use pre-defined clustering annotation here
+# We use pre-defined clustering annotation here. 
+# If no pre-defined clustering information is available, the standard clustering 
+# procedure in Seurat should be applied.
 mislet_seuratobj@active.ident<-mislet_annotation
 mislet_seuratobj <- RunUMAP(mislet_seuratobj,dims=1:20)
 
