@@ -1,0 +1,221 @@
+---
+title: "Using scCDC for contamination detection and correction on single-cell (-nucleus) RNA-Seq data"
+author:
+  - name: Weijian Wang
+    affiliation: ZJE, Zhejiang University, Haining
+  - name: Yihui Cen
+    affiliation: ZJE, Zhejiang University, Haining
+  - name: Zezhen Lu
+    affiliation: ZJE, Zhejiang University, Haining
+
+date: "`r BiocStyle::doc_date()`"
+output:
+  BiocStyle::html_document:
+    highlight: pygments
+    toc: true
+    fig_width: 10
+    fig_height: 5
+vignette: >
+  %\VignetteIndexEntry{scCDC}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r echo=FALSE, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(tidy = FALSE, dev = "png",
+                      message = FALSE, warning = FALSE)
+```
+
+# Introduction
+
+```{r setup,echo=FALSE}
+suppressPackageStartupMessages(library(scCDC))
+suppressPackageStartupMessages(library(Seurat))
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(tidyr))
+suppressPackageStartupMessages(library(ddpcr))
+```
+
+In droplet-based single-cell RNA-seq (scRNA-seq) and single-nucleus RNA-seq (snRNA-seq) assays, systematic contamination of ambient RNA molecules biases the estimation of gene expression levels. scCDC is developed for decontaminating the input dataset by first identifying the global contamination-causing genes (GCGs) and then performing correction on the GCGs.
+
+This tutorial will demonstrate how to use scCDC to deal with single-cell (-nucleus) matrices to detect and correct the contamination.
+
+# Quick start
+
+If you have a Seurat Object that contains clustering information, the typical scCDC workflow would be:
+
+```{r Quick_start,eval=FALSE}
+library(devtools)
+install_github("ZJU-UoE-CCW-LAB/scCDC")
+library(scCDC)
+# load data
+seuratobject <- readRDS('/path/to/seuratobject')
+# detect global contamination causing genes(GCGs)
+GCGs <- ContaminationDetection(seuratobject)
+# remove the contamination
+seuratobj_corrected <- ContaminationCorrection(seuratobject,rownames(GCGs))
+DefaultAssay(seuratobj_corrected) <- "Corrected"
+```
+
+The decontaminated count matrix is stored in the 'Corrected' assay in the output Seurat Object, which can be directly used for downstram analysis. If you want to get the decontaminted count matrix, use the following code:
+
+```{r eval=FALSE}
+corrected_count_matrix <- data.frame(seuratobj_corrected@assays[["Corrected"]]@layers$counts)
+```
+
+If you start with count matrix, see `Pre-processing data` section to create a Seurat Object containing clustering information.
+
+# Installation
+
+scCDC can be installed from Github with the following code in R:
+
+```{r eval=FALSE}
+if(!require("devtools")){
+  install.packages("devtools")
+}
+library(devtools)
+install_github("ZJU-UoE-CCW-LAB/scCDC")
+```
+
+Once installed, you can load scCDC in R using:
+
+```{r}
+library(scCDC)
+```
+
+To see the latest updates and releases or to post a bug, see our GitHub page at:<https://github.com/ZJU-UoE-CCW-LAB/scCDC>
+
+# Pre-processing data
+
+scCDC takes a Seurat Object containing clustering information as input. If you already have a clustered Seurat Object, skip the following procedures and proceed to the `Contamination detection` section. If you start with a count matrix, use the following procedures to create a Seurat Object.
+
+Here we use a mouse islet single-cell RNA-Seq dataset as example.
+
+```{r load-data}
+data(mislet_before, package = "scCDC")
+```
+
+The `mislet_before` dataset is a count matrix with 17540 genes and 2720 cells.
+
+Next, we apply Seurat analysis pipeline
+
+```{r apply-Seurat,message=FALSE,warning=FALSE}
+mislet_seuratobj<-CreateSeuratObject(mislet_before)
+mislet_seuratobj <- NormalizeData(mislet_seuratobj,
+                                  normalization.method = "LogNormalize",scale.factor = 10000)
+mislet_seuratobj <- FindVariableFeatures(mislet_seuratobj, 
+                                              selection.method = "vst", nfeatures = 2000)
+all.genes <- rownames(mislet_seuratobj)
+mislet_seuratobj <- ScaleData(mislet_seuratobj, features = all.genes)
+mislet_seuratobj <- RunPCA(mislet_seuratobj, 
+                                features = VariableFeatures(object = mislet_seuratobj))
+# We use pre-defined clustering annotation here. 
+# If no pre-defined clustering information is available, the standard clustering 
+# procedure in Seurat should be applied.
+mislet_seuratobj@active.ident<-mislet_annotation
+mislet_seuratobj <- RunUMAP(mislet_seuratobj,dims=1:20)
+```
+
+Now the `mislet_seuratobj` contains clustering information and can be taken as input for decontamination.
+
+In the tutorial we used pre-defined cluster annotation. To see more details related to standard clustering procedures and parameters setting in the Seurat pipeline, please check <https://satijalab.org/seurat/articles/pbmc3k_tutorial.html>
+
+# Contamination detection
+
+Having loaded the data, the next thing to do is to identify the global contamination-causing genes (GCGs) in the data. This can be done using the function `ContaminatioDetection` as follows:
+
+```{r ContaminationDetection.0}
+GCGs <- ContaminationDetection(mislet_seuratobj)
+rownames(GCGs)
+```
+
+The output of `ContaminationDetection` is a matrix containing entropy divergence with its rownames represents the name of the identified GCGs. Usually, the default setting is fine, but it can be done explicitly by setting `restriction_factor` and the output directories of Expression-Entropy plots and the full entropy divergence table (including uncontaminated genes):
+
+```{r ContaminationDetection.1, eval=FALSE}
+GCGs <- ContaminationDetection(mislet_seuratobj,restriction_factor = 0.5, 
+                                        sample_name = "mislet",out_path.plot = "./",
+                                        out_path.table = "./")
+```
+
+The value of restriction_factor represents how strict we are about the identified GCGs. Higher value would make `ContaminationDetection` return less GCGs with higher credibility. The default value of restriction_factor is 0.5. The Expression-Entropy plots and the full entropy divergence table would be stored under the specified path.
+
+# Contamination quantification
+
+It is often the cases that users do not know the extent of contamination in their data. Leveraging the identified GCGs, scCDC could calculate a contamination ratio to represent the contamination level in the data. Higher ratio represents higher contamination level. The contamination ratio could be calculated using `ContaminationQuantification` function:
+
+```{r}
+mislet_cont_ratio <- ContaminationQuantification(mislet_seuratobj,rownames(GCGs))
+mislet_cont_ratio
+```
+
+Contamination ratio higher than 0.0003 indicates severe contamination and using scCDC for decontamination is highly recommended. If the contamination ratio is lower than 0.0003, both scCDC and other decontamination tools (e.g. DecontX) are recommended for decontamination.
+
+Details related to DecontX are in <https://github.com/campbio/decontX>
+
+# Contamination correction
+
+The contamination ratio of the sample mouse islet data is higher than 0.0003, we next use `ContaminationCorrection` function to decontaminate the dataset.
+
+```{r ContaminationCorrection.1}
+mislet_seuratobj_corrected <- ContaminationCorrection(mislet_seuratobj, rownames(GCGs))
+```
+
+The output is a Seurat Object and the decontaminated count matrix is stored in the 'Corrected' assay. If you want to extract the decontaminated count matrix, using the following code:
+
+```{r eval=FALSE}
+corrected_count_matrix = data.frame(mislet_seuratobj_corrected@assays[["Corrected"]]@layers$counts)
+```
+
+If you want to proceed the Seurat analysis pipeline, please see the next section.
+
+# Integrating into downstream analysis
+
+The decontaminated count matrix is stored in the 'Corrected' assay, if you are using Seurat for downstream analysis, we need to first reset the default assay.
+
+```{r ContaminationCorrection.2}
+DefaultAssay(mislet_seuratobj_corrected) <- "Corrected"
+```
+
+## Data normalization
+
+Standard Seurat analysis workflow is then applied:
+
+```{r ContaminationCorrection.3,result='hide',fig.show='hide'}
+mislet_seuratobj_corrected <- NormalizeData(mislet_seuratobj_corrected,
+                                  normalization.method = "LogNormalize",scale.factor = 10000)
+mislet_seuratobj_corrected <- FindVariableFeatures(mislet_seuratobj_corrected,
+                                                   selection.method = "vst", nfeatures = 2000)
+all.genes <- rownames(mislet_seuratobj_corrected)
+mislet_seuratobj_corrected <- ScaleData(mislet_seuratobj_corrected,
+                                        features = all.genes)
+mislet_seuratobj_corrected <- RunPCA(mislet_seuratobj_corrected, 
+                                features = VariableFeatures(object = mislet_seuratobj_corrected))
+ElbowPlot(mislet_seuratobj_corrected)
+mislet_seuratobj_corrected <- FindNeighbors(mislet_seuratobj_corrected, dims = 1:15)
+mislet_seuratobj_corrected <- FindClusters(mislet_seuratobj_corrected, resolution = 0.2,verbose = F)
+mislet_seuratobj_corrected <- RunUMAP(mislet_seuratobj_corrected,dims=1:15)
+```
+
+## Visualizing the decontamination result
+
+We choose two GCGs to display the effect of decontamination.
+
+```{r ContaminationCorrection.4}
+FeaturePlot(mislet_seuratobj, features = c("Ins1", "Gcg"))
+FeaturePlot(mislet_seuratobj_corrected, features = c("Ins1", "Gcg"))
+```
+
+# Getting help
+
+If any problems occur when using scCDC, please report it on issues: <https://github.com/ZJU-UoE-CCW-LAB/scCDC/issues>. For more specific issues, feel free to email us: [yihuicen\@g.ucla.edu](mailto:yihuicen@g.ucla.edu){.email}, [weijianwang\@ucla.edu](mailto:weijianwang@ucla.edu){.email},[12307092\@zju.edu.cn](mailto:12307092@zju.edu.cn){.email}
+
+# Session information
+
+```{r}
+sessionInfo()
+```
+
+# References
+
+scCDC: a computational method for gene-specific contamination detection and correction in single-cell and single-nucleus RNA-seq data. Weijian Wang, Yihui Cen, Zezhen Lu, Yueqing Xu, Tianyi Sun, Ying Xiao, Wanlu Liu, Jingyi Jessica Li, Chaochen Wang. bioRxiv 2022.11.24.517598; doi: <https://doi.org/10.1101/2022.11.24.517598>
