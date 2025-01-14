@@ -254,7 +254,7 @@ generate_plot <- function(.x, name, genes = NULL, point_size = 1.8, cutoff = 0.0
 #' relationship between the entropy and mean expression level of genes in a cell cluster.
 #'
 #' @param seuratobject a Seurat object that has been clustered.
-#' @param restriction_factor the parameter controls the degree of conservation when justifying the contamination causing genes. Default setting is 0.8, representing that each potential contamination-causing gene should be recognized in 80 percent of the clusters with the algorithm to be identified in the output result.
+#' @param restriction_factor the parameter controls the degree of conservation when justifying the contamination causing genes. Default setting is 0.5, representing that each potential contamination-causing gene should be recognized in 50 percent of the clusters with the algorithm to be identified in the output result.
 #' @param sample_name the name of the output contamination degree dataframe.
 #' @param min.cell the parameter used to filter the cell populations without sufficient number of cells. Cell populations that reaches the threshold could be used in downstream analysis.
 #' @param percent.cutoff the parameter used to filter the candidate contamination causing genes without sufficient expression percentage in each cluster
