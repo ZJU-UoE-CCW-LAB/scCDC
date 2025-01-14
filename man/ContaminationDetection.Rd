@@ -18,7 +18,7 @@ ContaminationDetection(
 \arguments{
 \item{seuratobject}{a Seurat object that has been clustered.}
 
-\item{restriction_factor}{the parameter controls the degree of conservation when justifying the contamination causing genes. Default setting is 0.8, representing that each potential contamination-causing gene should be recognized in 80 percent of the clusters with the algorithm to be identified in the output result.}
+\item{restriction_factor}{the parameter controls the degree of conservation when justifying the contamination causing genes. Default setting is 0.5, representing that each potential contamination-causing gene should be recognized in 50 percent of the clusters with the algorithm to be identified in the output result.}
 
 \item{sample_name}{the name of the output contamination degree dataframe.}
 
