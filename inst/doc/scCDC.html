@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2024-10-01" />
+<meta name="date" content="2025-01-15" />
 
 <title>Using scCDC for contamination detection and correction on single-cell (-nucleus) RNA-Seq data</title>
 
@@ -797,7 +797,7 @@ function toggle_visibility(id1) {
 <h1 class="title toc-ignore">Using scCDC for contamination detection and correction on single-cell (-nucleus) RNA-Seq data</h1>
 <p class="author-name">Weijian Wang<span class="affil-mark">1</span>, Yihui Cen<span class="affil-mark">1</span> and Zezhen Lu<span class="affil-mark">1</span></p>
 <p class="author-affiliation"><span class="affil-mark">1</span>ZJE, Zhejiang University, Haining</p>
-<h4 class="date">1 October 2024</h4>
+<h4 class="date">15 January 2025</h4>
 
 </div>
 
@@ -873,11 +873,9 @@ function toggle_visibility(id1) {
 <span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>mislet_seuratobj <span class="ot">&lt;-</span> <span class="fu">ScaleData</span>(mislet_seuratobj, <span class="at">features =</span> all.genes)</span>
 <span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>mislet_seuratobj <span class="ot">&lt;-</span> <span class="fu">RunPCA</span>(mislet_seuratobj, </span>
 <span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>                                <span class="at">features =</span> <span class="fu">VariableFeatures</span>(<span class="at">object =</span> mislet_seuratobj))</span>
-<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co"># We use pre-defined clustering annotation here. </span></span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co"># If no pre-defined clustering information is available, the standard clustering </span></span>
-<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co"># procedure in Seurat should be applied.</span></span>
-<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>mislet_seuratobj<span class="sc">@</span>active.ident<span class="ot">&lt;-</span>mislet_annotation</span>
-<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>mislet_seuratobj <span class="ot">&lt;-</span> <span class="fu">RunUMAP</span>(mislet_seuratobj,<span class="at">dims=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>)</span></code></pre></div>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co"># We use pre-defined clustering annotation here</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>mislet_seuratobj<span class="sc">@</span>active.ident<span class="ot">&lt;-</span>mislet_annotation</span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>mislet_seuratobj <span class="ot">&lt;-</span> <span class="fu">RunUMAP</span>(mislet_seuratobj,<span class="at">dims=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>)</span></code></pre></div>
 <p>Now the <code>mislet_seuratobj</code> contains clustering information and can be taken as input for decontamination.</p>
 <p>In the tutorial we used pre-defined cluster annotation. To see more details related to standard clustering procedures and parameters setting in the Seurat pipeline, please check <a href="https://satijalab.org/seurat/articles/pbmc3k_tutorial.html" class="uri">https://satijalab.org/seurat/articles/pbmc3k_tutorial.html</a></p>
 </div>
