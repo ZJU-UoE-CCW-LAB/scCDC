@@ -2,7 +2,7 @@
 ### Developed by Weijian Wang, Yihui Cen, Zezhen Lu
 
 ## Description
-scCDC is a computational algorithm developed to detect global contamination-causing genes (GCGs) in single cell and single nuclei RNA-Seq datasets and perform further decontamination on the GCGs.
+scCDC is a computational algorithm developed to detect global contamination-causing genes (GCGs) in single cell and single nuclei RNA-Seq datasets and perform further decontamination (ambient RNA removal) on the GCGs.
 
 ## Installation
 
